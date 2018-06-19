@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="editJobForm">
+			<p:growl for="success" showDetail="true"  life="1500"/>
+			<p:panelGrid columns="3" class="kcare-table">
+			<f:facet name="header">Job "#{jobDetailController.job.title}" bearbeiten:</f:facet>
+				<p:outputLabel for="title" value="Titel: "/>
+				<p:inputText id="title" value="#{jobDetailController.job.title}">
+					<f:validateLength minimum="3" maximum="30" />
+				</p:inputText>
+				<p:message for="title" />
+
+				<p:outputLabel for="description" value="Beschreibung: " />
+				<p:inputTextarea id="description" value="#{jobDetailController.job.description}" rows="3" cols="50" autoResize="true" maxlength="150" />
+				<p:message for="description" />
+
+				<p:outputLabel for="parent" value="Eltern: " />
+				<h:selectOneMenu id="parent" value="#{jobDetailController.parentId}">
+					<f:selectItem itemLabel="#{jobDetailController.parent}" itemValue="#{jobDetailController.parent.id}"/>
+					<f:selectItems value="#{jobDetailController.parents}" var="parent" itemLabel="#{parent}" itemValue="#{parent.id}"  />
+					<f:validateRequired/>
+				</h:selectOneMenu>
+				<p:message for="parent" />
+
+				<p:outputLabel for="startDate" value="Beginn: " />
+				<p:calendar id="startDate" value="#{jobDetailController.job.startDate}" mode="popup" showOn="button" navigator="true" locale="de" timeZone="CET" mask="true" yearRange="-1:+1" pattern="dd.MM.yyyy">
+					<f:validateRequired />
+				</p:calendar>
+				<p:message for="startDate" />
+
+				<p:outputLabel for="endDate" value="Ende: " />
+				<p:calendar id="endDate" value="#{jobDetailController.job.endDate}" mode="popup" showOn="button" navigator="true" locale="de" timeZone="CET" mask="true" yearRange="-1:+1" pattern="dd.MM.yyyy">
+					<f:validateRequired />
+				</p:calendar>
+				<p:message for="endDate" />
+
+				<p:outputLabel for="daysBefore" value="Erinnerung (#Tage): " />
+				<p:inputText id="daysBefore" value="#{jobDetailController.job.daysBefore}">
+					<f:validateLongRange minimum="0" maximum="30" />
+					<f:validateRequired />
+				</p:inputText>
+				<p:message for="daysBefore" />
+				
+				<p:outputLabel for="done" value="Erledigt: " />
+				<p:selectOneRadio id="done" value="#{jobDetailController.job.done}">
+					<f:selectItem itemLabel="ja" itemValue="true" />
+					<f:selectItem itemLabel="nein" itemValue="false" />
+					<f:validateRequired />
+				</p:selectOneRadio>
+				<p:message for="done" />
+
+				<f:facet name="footer"><h:panelGroup>
+            		<p:commandButton id="submit" value="speichern" icon="fa fa-check" actionListener="#{jobDetailController.save}" update="@form" />
+					<p:button id="cancel" value="abbrechen" icon="fa fa-close" outcome="/secured/supervisor/dataManagement/listJobs.xhtml" />
+				</h:panelGroup></f:facet>
+
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

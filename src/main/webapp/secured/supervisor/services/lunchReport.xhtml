@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="lunchReportForm">
+			<p:messages id="msgs" severity="error"  closable="true"/>
+			<p:growl id="growl" for="success" showDetail="true" life="1500" />
+			<h2 class="kcare-h2">Lunch-Report:</h2>
+			<p:panelGrid columns="2" class="kcare-table not-print">
+				<f:facet name="header">Einstellungen</f:facet>
+
+				<p:outputLabel for="start" value="Start wählen:" />
+				<p:calendar id="start" value="#{lunchReportController.start}"
+					mode="popup" showOn="button" navigator="true" locale="de"
+					mask="true" timeZone="CET" yearRange="-1:+1" pattern="dd.MM.yyyy"
+					required="true">
+					<f:validateRequired />
+				</p:calendar>
+
+				<p:outputLabel for="end" value="Ende wählen:" />
+				<p:calendar id="end" value="#{lunchReportController.end}"
+					mode="popup" showOn="button" navigator="true" locale="de"
+					mask="true" timeZone="CET" yearRange="-1:+1" pattern="dd.MM.yyyy"
+					required="true">
+				</p:calendar>
+
+				<p:outputLabel for="price" value="Kosten:" />
+				<p:inputNumber id="price" value="#{lunchReportController.price}"
+					symbol=" €" symbolPosition="s" required="true">
+				</p:inputNumber>
+
+				<f:facet name="footer">
+					<p:commandButton id="refresh" icon="fa fa-refresh" value="aktualisieren"
+						actionListener="#{lunchReportController.update}"
+						update="msgs growl costsDT" oncomplete="PF('lunchReport').clearFilters()"/>
+				</f:facet>
+			
+
+			</p:panelGrid>
+			<br></br>
+
+			<p:dataTable class="kcare-datatable" id="costsDT" var="cost"
+				value="#{lunchReportController.lunchReport}" filteredValue="#{lunchReportController.filteredLunchReport}" widgetVar="lunchReport"
+				sortBy="#{cost.child}" sortMode="ascending">
+				<f:facet name="header">
+					<p:outputLabel value="#{lunchReportController.start}">
+						<f:convertDateTime pattern="dd.MM.yyyy" locale="de" timeZone="CET" />
+					</p:outputLabel>
+					<p:outputLabel value=" - " />
+					<p:outputLabel value="#{lunchReportController.end}">
+						<f:convertDateTime pattern="dd.MM.yyyy" locale="de" timeZone="CET" />
+					</p:outputLabel>
+				</f:facet>
+				<p:column headerText="Name" sortBy="#{cost.child}" filterBy="#{cost.child}"
+				filterMatchMode="contains">
+					<h:outputText value="#{cost.child}" />
+				</p:column>
+				<p:column headerText="Kosten" sortBy="#{cost.costs}">
+					<h:outputText value="#{cost.costs}">
+						<f:convertNumber minIntegerDigits="2" minFractionDigits="2"
+							maxFractionDigits="2" maxIntegerDigits="2" />
+					</h:outputText>
+					<h:outputText value=" €" />
+				</p:column>
+				<f:facet name="footer">
+					<p:commandLink value="als .csv exportieren" ajax="false">
+						<p:dataExporter type="csv" target="costsDT" fileName="Kosten" />
+					</p:commandLink>
+					<p:commandLink value="als .xml exportieren" ajax="false">
+						<p:dataExporter type="xml" target="costsDT" fileName="Kosten" />
+					</p:commandLink>
+					<p:commandLink value="Jobs erstellen"
+						oncomplete="PF('dlg').show()"
+						actionListener="#{lunchReportController.clearDialog}"
+						update=":lunchReportForm:dialog">
+					</p:commandLink>
+				</f:facet>
+			</p:dataTable>
+			
+			<p:dialog id="dialog" header="Jobs erstellen" severity="alert" widgetVar="dlg" closeOnEscape="true">
+				<p:panelGrid columns="2">
+					<p:outputLabel for="deadline" value="Fälligkeit: " />
+					<p:calendar id="deadline" value="#{lunchReportController.deadline}"
+						mode="popup"  navigator="true" locale="de" mask="true"
+						timeZone="CET" yearRange="-1:+1" pattern="dd.MM.yyyy">
+					</p:calendar>
+
+					<p:outputLabel for="daysBefore" value="Erinnerung (#Tage): " />
+					<p:inputNumber id="daysBefore"
+						value="#{lunchReportController.daysBefore}" minValue="0"
+						maxValue="30" decimalPlaces="0">
+					</p:inputNumber>
+
+					<p:outputLabel />
+					<p:column>
+						<p:commandButton value="erstellen"
+							actionListener="#{lunchReportController.generateJob}"
+							update="growl msgs" oncomplete="PF('dlg').hide()"/>
+						<p:commandButton value="abbrechen" onclick="PF('dlg').hide()" />
+					</p:column>
+				</p:panelGrid>
+			</p:dialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

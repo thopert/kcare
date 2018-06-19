@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="listChildrenForm">
+			<p:growl for="success" showDetail="true" life="2000"/>
+			<h2 class="kcare-h2" >Kinder:</h2>
+			<p:dataTable id="childDT" var="child" value="#{childListController.children}" class="kcare-datatable" 
+			sortBy="#{child.person.lastName}" sortOrder="ascending" filteredValue="#{childListController.filteredChildren}" widgetVar="children">
+				<p:column headerText="Vorname" sortBy="#{child.person.firstName}" filterBy="#{child.person.firstName}" 
+				filterMatchMode="contains">
+					<h:outputText value="#{child.person.firstName}" />
+				</p:column>
+				<p:column headerText="Nachname" sortBy="#{child.person.lastName}" filterBy="#{child.person.lastName}"
+				filterMatchMode="contains">
+					<h:outputText value="#{child.person.lastName}" />
+				</p:column>
+				<p:column>
+					<p:commandButton title="View" icon="fa fa-search" action="/secured/supervisor/dataManagement/detailsChild.xhtml">
+						<f:setPropertyActionListener value="#{child}"
+							target="#{childDetailController.child}" />
+					</p:commandButton>
+					<p:commandButton title="Edit" icon="fa fa-pencil" action="/secured/supervisor/dataManagement/editChild.xhtml">
+						<f:setPropertyActionListener value="#{child}"
+							target="#{childDetailController.child}" />
+					</p:commandButton>
+					<p:commandButton title="Delete" icon="fa fa-trash" action="#{childDetailController.deleteChild}" update="@form"
+					rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}" oncomplete="PF('children').clearFilters()">
+						<f:setPropertyActionListener value="#{child}"
+							target="#{childDetailController.child}" />
+						<p:confirm header="Löschen" message='Soll "#{child}" unwiderruflich gelöscht werden?' icon="fa fa-warning" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="ja" type="button"
+					styleClass="ui-confirmdialog-yes delete" icon="fa fa-check" />
+				<p:commandButton value="nein" type="button"
+					styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

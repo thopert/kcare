@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,500,700");
+
+@import url("https://fonts.googleapis.com/css?family=Sniglet:400,800");
+
+@import url(/resources/css/header.css);
+
+@import url(/resources/css/login.css);
+
+@import url(/resources/css/footer.css);
+
+@import url(/resources/css/form.css);
+
+@import url(/resources/css/table.css);
+
+@import url(/resources/css/dialog.css);
+
+@import url(/resources/css/kcare.css);
+
+@import url(/resources/css/print.css);
+
+/*
+	colors:
+	-------
+
+	green          | #0c9    | rgb(0, 204, 153)
+	darker green   | #00b386 | rgb(0, 179, 134)
+	brighter green | #00e6ac | rgb(0, 230, 172)
+*/
+
+* {
+	box-sizing: border-box;
+	outline: 0 !important;
+}
+
+/*
+	define structure
+*/
+body {
+	margin: 0;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: auto 1fr auto;
+	grid-template-areas:
+		"header"
+		"content"
+		"footer"
+	;
+	font-family: "Sniglet" !important;
+	min-height: 100vh;
+}

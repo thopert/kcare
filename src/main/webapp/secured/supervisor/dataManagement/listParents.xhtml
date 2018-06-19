@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="listParentsForm">
+			<p:growl for="success" showDetail="true" life="2500"/>
+			<h2 class="kcare-h2">Eltern:</h2>
+			<p:dataTable id="parentDT" var="parent" value="#{parentListController.parents}" class="kcare-datatable" widgetVar="parents"
+			filteredValue="#{parentListController.filteredParents}" sortBy="#{parent.mother}" sortOrder="ascending">
+				<p:column headerText="Mutter" sortBy="#{parent.mother}" filterBy="#{parent.mother}" filterMatchMode="contains">
+					<h:outputText value="#{parent.mother}" />
+				</p:column>
+				<p:column headerText="Vater" sortBy="#{parent.father}" filterBy="#{parent.father}" filterMatchMode="contains">
+					<h:outputText value="#{parent.father}" />
+				</p:column>
+				<p:column>
+					<p:commandButton title="View" icon="fa fa-search" action="/secured/supervisor/dataManagement/detailsParent.xhtml">
+						<f:setPropertyActionListener value="#{parent}"
+							target="#{parentDetailController.parent}" />
+					</p:commandButton>
+					<p:commandButton title="Edit" icon="fa fa-pencil" action="/secured/supervisor/dataManagement/editParent.xhtml">
+						<f:setPropertyActionListener value="#{parent}" target="#{parentDetailController.parent}" />
+					</p:commandButton>
+					<p:commandButton title="Delete" icon="fa fa-trash" action="#{parentDetailController.deleteParent}" update="@form"
+					oncomplete="PF('parents').clearFilters()">
+						<f:setPropertyActionListener value="#{parent}" target="#{parentDetailController.parent}" />
+						<p:confirm header="Löschen" message='Sollen "#{parent}" unwiderruflich gelöscht werden?' icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="ja" type="button" styleClass="ui-confirmdialog-yes delete" icon="fa fa-check" />
+				<p:commandButton value="nein" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+			</p:confirmDialog>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="detailsChildForm">
+			<p:panelGrid columns="2" class="kcare-table">
+				<f:facet name="header">Personaldaten: #{childDetailController.child.person}</f:facet>
+				<p:outputLabel value="Bild: " class="not-print" />
+				<p:graphicImage
+					value="#{childDetailController.child.person.displayPicture}"
+					width="300" height="200" class="not-print" />
+
+				<p:outputLabel value="Vorname: " />
+				<p:outputLabel
+					value="#{childDetailController.child.person.firstName}" />
+
+				<p:outputLabel value="Nachname: " />
+				<p:outputLabel
+					value="#{childDetailController.child.person.lastName}" />
+
+				<p:outputLabel value="Geschlecht: " />
+				<p:outputLabel
+					value="#{childDetailController.child.person.sex ? 'weiblich' : 'männlich'}" />
+
+				<p:outputLabel value="Geburtsdatum: " />
+				<p:outputLabel
+					value="#{childDetailController.child.person.birthDate}">
+					<f:convertDateTime pattern="dd.MM.yyyy" timeZone="CET" />
+				</p:outputLabel>
+
+				<p:outputLabel value="Vater: " />
+				<p:outputLabel value="#{childDetailController.child.parents.father}" />
+
+				<p:outputLabel value="Mutter: " />
+				<p:outputLabel value="#{childDetailController.child.parents.mother}" />
+
+				<p:outputLabel value="Bezugspersonen: " />
+				<p:dataList value="#{childDetailController.contacts}" var="contact">
+					#{contact}
+				</p:dataList>
+
+				<p:outputLabel value="Bringzeit: " />
+				<p:outputLabel value="#{childDetailController.child.putTime}" />
+
+				<p:outputLabel value="Abholzeit " />
+				<p:outputLabel value="#{childDetailController.child.pickTime}" />
+
+				<p:outputLabel value="Anmerkungen: " />
+				<p:outputLabel value="#{childDetailController.child.notes}" />
+
+				<p:outputLabel value="Abmelde-Datum: " />
+				<p:outputLabel
+					value="#{childDetailController.child.cancellationDate}">
+					<f:convertDateTime pattern="dd.MM.yyyy" timeZone="CET" />
+				</p:outputLabel>
+
+				<f:facet name="footer">
+					<p:button id="cancel" value="zurück" icon="fa fa-arrow-left"
+						outcome="/secured/supervisor/dataManagement/listChildren.xhtml" />
+				</f:facet>
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="scheduleForm">
+			<p:growl id="success" for="success" showDetail="true" />
+			<h2 class="kcare-h2">Tagesplan:</h2>
+
+			<p:panelGrid columns="2" class="kcare-table not-print">
+
+				<f:facet name="header">Datum:</f:facet>
+
+				<p:outputLabel for="calendar" value="Datum wählen:" />
+
+				<p:calendar id="calendar" value="#{scheduleController.date}"
+					mode="popup" showOn="button" navigator="true" locale="de"
+					mask="true" yearRange="-1:+1" pattern="dd.MM.yyyy" timeZone="CET">
+					<p:ajax event="dateSelect" listener="#{scheduleController.update}"
+						update="children"
+						oncomplete="PF('childDT').clearFilters();PF('somLunch').selectValue('');PF('somAbsent').selectValue('');
+				PF('somBirth').selectValue('');PF('somPick').selectValue('')" />
+				</p:calendar>
+
+			</p:panelGrid>
+			<p:commandButton style="display:none"
+				actionListener="#{scheduleController.update}" update="children"
+				oncomplete="PF('childDT').clearFilters();PF('somLunch').selectValue('');PF('somAbsent').selectValue('');
+				PF('somBirth').selectValue('');PF('somPick').selectValue('')" />
+
+			<br></br>
+
+			<p:dataTable class="kcare-datatable" id="children"
+				value="#{scheduleController.scheduleEntries}"
+				filteredValue="#{scheduleController.filteredScheduleEntries}"
+				var="sc" widgetVar="childDT" sortBy="#{sc.child}"
+				sortOrder="ascending">
+				<f:facet name="header">
+					<p:outputLabel value="#{scheduleController.date}">
+						<f:convertDateTime pattern="dd.MM.yyyy" locale="de" timeZone="CET" />
+					</p:outputLabel>
+				</f:facet>
+				<p:column headerText="Name" sortBy="#{sc.child}"
+					filterBy="#{sc.child}" filterMatchMode="contains">
+					<h:outputText value="#{sc.child}" />
+				</p:column>
+				<p:column headerText="Bringzeit" filterBy="#{sc.child.putTimeBegin}" filterMatchMode="gte">
+					<p:outputLabel value="#{sc.child.putTime}"/>
+				</p:column>
+				<p:column headerText="Abholzeit" filterBy="#{sc.child.pickTimeBegin}" filterMatchMode="gte">
+					<p:outputLabel value="#{sc.child.pickTime}"/>
+				</p:column>
+				<p:column headerText="Abwesend" filterBy="#{sc.absent}">
+					<f:facet name="filter">
+						<p:selectOneMenu widgetVar="somAbsent"
+							onchange="PF('childDT').filter()">
+							<f:converter converterId="javax.faces.Boolean" />
+							<f:selectItem itemLabel="auswählen" itemValue="" />
+							<f:selectItem itemLabel="ja" itemValue="true" />
+							<f:selectItem itemLabel="nein" itemValue="false" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{sc.absent ? 'ja' : 'nein'}" />
+				</p:column>
+				<p:column headerText="Geburtstag" filterBy="#{sc.birthday}">
+					<f:facet name="filter">
+						<p:selectOneMenu widgetVar="somBirth"
+							onchange="PF('childDT').filter()">
+							<f:converter converterId="javax.faces.Boolean" />
+							<f:selectItem itemLabel="auswählen" itemValue="" />
+							<f:selectItem itemLabel="ja" itemValue="true" />
+							<f:selectItem itemLabel="nein" itemValue="false" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{sc.birthday ? 'ja' : 'nein'}" />
+				</p:column>
+				<p:column headerText="Mittagessen" filterBy="#{sc.lunch}">
+					<f:facet name="filter">
+						<p:selectOneMenu widgetVar="somLunch"
+							onchange="PF('childDT').filter()">
+							<f:converter converterId="javax.faces.Boolean" />
+							<f:selectItem itemLabel="auswählen" itemValue="" />
+							<f:selectItem itemLabel="ja" itemValue="true" />
+							<f:selectItem itemLabel="nein" itemValue="false" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{sc.lunch ? 'ja' : 'nein'}" />
+				</p:column>
+				<p:column headerText="Abholperson" filterBy="#{sc.pickup != null}">
+					<f:facet name="filter">
+						<p:selectOneMenu widgetVar="somPick"
+							onchange="PF('childDT').filter()">
+							<f:converter converterId="javax.faces.Boolean" />
+							<f:selectItem itemLabel="auswählen" itemValue="" />
+							<f:selectItem itemLabel="Kontakt" itemValue="true" />
+							<f:selectItem itemLabel="Eltern" itemValue="false" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{sc.pickup != null ? sc.pickup : 'Eltern'}" />
+				</p:column>
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

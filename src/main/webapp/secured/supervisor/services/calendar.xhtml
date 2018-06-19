@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="calendarForm" class="kcare-calendar">
+			<p:growl id="growl" for="success" showDetail="true" life="1500" />
+			<p:schedule id="schedule" value="#{calendarController.eventModel}"
+				widgetVar="myschedule" timeZone="CET" draggable="false" resizable="false" allDaySlot="false" locale="de">
+				<p:ajax event="dateSelect" listener="#{calendarController.onDateSelect}"
+					update="eventDetails msgs dlg" oncomplete="PF('eventDialog').show();" />
+				<p:ajax event="eventSelect" listener="#{calendarController.onEventSelect}"
+					update="eventDetails msgs dlg" oncomplete="PF('eventDialog').show();" />
+			</p:schedule>
+
+			<p:dialog id="dlg" widgetVar="eventDialog" header="Feiertag/Ferien" resizable="false">
+				<p:messages id="msgs" severity="error" closable="true" closeOnEscape="true"/>
+				<p:panelGrid id="eventDetails" columns="2" class="kcare-table">
+					<p:outputLabel for="title" value="Name:" />
+					<p:inputText id="title" value="#{calendarController.event.title}"
+						required="true" />
+
+					<p:outputLabel for="from" value="von:" />
+					<p:calendar id="from" value="#{calendarController.event.startDate}"
+						mode="popup" showOn="button" navigator="true" locale="de"
+						mask="true" yearRange="-12:+0" timezone="CET" pattern="dd.MM.yyyy HH:mm" required="true" />
+
+					<p:outputLabel for="to" value="bis:" />
+					<p:calendar id="to" value="#{calendarController.event.endDate}"
+						mode="popup" showOn="button"  navigator="true" locale="de"
+						mask="true" yearRange="-12:+0" timezone="CET" pattern="dd.MM.yyyy HH:mm"
+						required="true" />
+
+					<p:outputLabel value="" />
+					<p:column id="buttons" columns="2">
+						<p:commandButton id="addButton" value="Speichern"
+							actionListener="#{calendarController.addEvent}"
+							oncomplete="PF('myschedule').update();PF('eventDialog').hide()" update="msgs eventDetails" />
+
+						<p:commandButton id="deleteButton" value="Löschen"
+							actionListener="#{calendarController.deleteEvent}"
+							oncomplete="PF('myschedule').update();PF('eventDialog').hide()" update="msgs eventDetails" rendered="#{calendarController.showDelete}"/>
+					</p:column>
+				</p:panelGrid>
+			</p:dialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

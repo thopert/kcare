@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3c.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/main.xhtml">
+    <ui:define name ="content">
+        <h:form>
+        	<h:panelGroup layout="block" rendered="#{sessionInfoBean.loggedIn and sessionInfoBean.hasRole('ADMIN')}">
+                <h1 class="kcare-headline">Administrator - Hauptmenü</h1>
+                <h:form>
+                    <p:panelGrid columns="1" class="kcare-menu">
+                        <f:facet name="header">Operationen:</f:facet>
+                        <p:link value="Benutzer bearbeiten" outcome="/admin/users.xhtml"/>
+                        <p:link value="Betreuer bearbeiten" outcome="/admin/listSupervisors.xhtml" />
+                        <p:link value="Betreuer hinzufügen" outcome="/admin/createSupervisor.xhtml"/>
+                        <p:link value="Passwort ändern" outcome="/secured/common/editPassword.xhtml"/>
+                    </p:panelGrid>
+                </h:form>
+            </h:panelGroup>
+            <h:panelGroup layout="block" rendered="#{sessionInfoBean.loggedIn and sessionInfoBean.hasRole('SUPERVISOR')}">
+                <h1 class="kcare-headline">Betreuer - Hauptmenü</h1>
+                <h:form>
+                    <p:panelGrid columns="3" class="kcare-menu-container">
+					<p:panelGrid columns="1" class="kcare-menu">
+						<f:facet name="header">Personen-Management</f:facet>
+						<p:link value="Kinder verwalten"
+							outcome="/secured/supervisor/dataManagement/listChildren.xhtml" />
+						<p:link value="Eltern verwalten"
+							outcome="/secured/supervisor/dataManagement/listParents.xhtml" />
+						<p:link value="Bezugspersonen verwalten"
+							outcome="/secured/supervisor/dataManagement/listContacts.xhtml" />
+						<p:link value="Kind erstellen"
+							outcome="/secured/supervisor/dataManagement/createChild.xhtml" />
+						<p:link value="Eltern erstellen"
+							outcome="/secured/supervisor/dataManagement/createParent.xhtml" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" class="kcare-menu">
+						<f:facet name="header">Tagesgeschäft</f:facet>
+						<p:link value="Tagespläne verwalten"
+							outcome="/secured/supervisor/schedule/setupSchedule.xhtml" />
+						<p:link value="Tagesplan abrufen"
+							outcome="/secured/supervisor/schedule/schedule.xhtml" />
+						<p:link value="Wochenplan abrufen"
+							outcome="/secured/supervisor/schedule/weekSchedule.xhtml" />
+						<p:link value="Monatsplan abrufen"
+							outcome="/secured/supervisor/schedule/monthSchedule.xhtml" />
+						<p:link value="Job erstellen"
+							outcome="/secured/supervisor/dataManagement/createJob.xhtml" />
+						<p:link value="Jobs verwalten"
+							outcome="/secured/supervisor/dataManagement/listJobs.xhtml" />
+					</p:panelGrid>
+					<p:panelGrid columns="1" class="kcare-menu">
+						<f:facet name="header">Services</f:facet>
+						<p:link value="Lunch-Report erstellen"
+							outcome="/secured/supervisor/services/lunchReport.xhtml" />
+						<p:link value="Kontaklisten abrufen"
+							outcome="/secured/supervisor/services/childContactLists.xhtml" />
+						<p:link value="Kalender anzeigen"
+							outcome="/secured/supervisor/services/calendar.xhtml" />
+						<p:link value="Feiertage eintragen"
+							outcome="/secured/supervisor/dataManagement/createHoliday.xhtml" />
+						<p:link value="Passwort ändern"
+							outcome="/secured/common/editPassword.xhtml" />
+					</p:panelGrid>
+                    </p:panelGrid>
+                </h:form>
+            </h:panelGroup>
+            <h:panelGroup layout="block" rendered="#{sessionInfoBean.loggedIn and sessionInfoBean.hasRole('PARENTS')}">
+                <h1 class="kcare-headline">Eltern - Hauptmenü</h1>
+                <h:form>
+                    <p:panelGrid columns="2" class="kcare-menu-container">
+                    <p:panelGrid columns="1" class="kcare-menu">
+                        <f:facet name="header">Tagesgeschäft</f:facet>
+                        <p:link value="Kind abwesend melden" outcome="/secured/parent/setAbsence.xhtml"/>
+                        <p:link value="Abholperson melden" outcome="/secured/parent/setPickup.xhtml"/>
+                        <p:link value="Anmeldung Mittagessen" outcome="/secured/parent/setLunch.xhtml"/>
+                        <p:link value="Meine Jobs" outcome="/secured/supervisor/dataManagement/listJobs.xhtml"/>
+                        </p:panelGrid>
+                        <p:panelGrid columns="1" class="kcare-menu">
+                        <f:facet name="header">Verwaltung</f:facet>
+                        <p:link value="Kinder verwalten" outcome="/secured/supervisor/dataManagement/listChildren.xhtml"/>
+                        <p:link value="Bezugspersonen verwalten" outcome="/secured/supervisor/dataManagement/listContacts.xhtml"/>
+                        <p:link value="Bezugsperson hinzufügen" outcome="/secured/parent/createContact.xhtml"/>
+                        <p:commandLink value="Einstellungen" action="/secured/supervisor/dataManagement/editParent.xhtml">
+                        	<f:setPropertyActionListener value="#{parentInfoBean.currentParent}" target="#{parentDetailController.parent}" />
+                        </p:commandLink>
+                        <p:link value="Passwort ändern" outcome="/secured/common/editPassword.xhtml"/>
+                    </p:panelGrid>
+                    </p:panelGrid>
+                </h:form>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>

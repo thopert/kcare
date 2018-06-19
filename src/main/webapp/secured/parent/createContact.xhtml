@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="createContactForm">
+			<p:focus />
+			<p:growl for="success" showDetail="true" life="2000"/>
+			<p:panelGrid columns="3" class="kcare-table">
+				<f:facet name="header">Erstellung: Bezugsperson</f:facet>
+				<p:outputLabel for="firstName" value="Vorname: " />
+				<p:inputText id="firstName"
+					value="#{contactCreateController.contact.person.firstName}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message id="firstNameMessage" for="firstName" />
+
+				<p:outputLabel for="lastName" value="Nachname: " />
+				<p:inputText id="lastName"
+					value="#{contactCreateController.contact.person.lastName}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="lastName" />
+
+				<p:outputLabel for="sex" value="Geschlecht: " />
+				<p:selectOneRadio id="sex" value="#{contactCreateController.contact.person.sex}">
+					<f:selectItem itemLabel="männlich" itemValue="false" />
+					<f:selectItem itemLabel="weiblich" itemValue="true" />
+					<f:validateRequired />
+				</p:selectOneRadio>
+				<p:message for="sex" />
+
+				<p:outputLabel for="mail" value="Email: " />
+				<p:inputText id="mail"
+					value="#{contactCreateController.contact.person.mail}">
+					<f:validateLength minimum="3" maximum="30" />
+				</p:inputText>
+				<p:message for="mail" />
+
+				<p:outputLabel for="phone" value="Festnetz: " />
+				<p:inputText id="phone"
+					value="#{contactCreateController.contact.person.phone}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="phone" />
+
+				<p:outputLabel for="businessPhone" value="Mobiltelefon: " />
+				<p:inputText id="businessPhone"
+					value="#{contactCreateController.contact.person.businessPhone}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="businessPhone" />
+
+				<p:outputLabel for="birthDate" value="Geburtsdatum: " />
+				<p:calendar id="birthDate"
+					value="#{contactCreateController.contact.person.birthDate}"
+					mode="popup" showOn="button" navigator="true" locale="de"
+					mask="true" yearRange="-100:+0" pattern="dd.MM.yyyy">
+					<f:validateRequired />
+				</p:calendar>
+				<p:message for="birthDate" />
+
+				<p:outputLabel id="pictureLabel" value="Bild auswählen: " />
+				<p:fileUpload id="picture"
+					fileUploadListener="#{contactCreateController.handleFileUpload}"
+					label="Bild hinzufügen" auto="true"
+					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="10000000" />
+				<p:message for="picture" />
+
+				<f:facet name="footer">
+					<h:panelGroup>
+            			<p:commandButton id="submit" value="erstellen" icon="fa fa-check" action="#{contactCreateController.saveContact}" update="@form"/>
+						<p:button id="cancel" value="abbrechen" icon="fa fa-close" outcome="/secured/welcome.xhtml" />
+					 </h:panelGroup>
+       			</f:facet>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

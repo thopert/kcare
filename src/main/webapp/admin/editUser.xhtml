@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="editUserForm">
+			<p:focus />
+			<p:growl for="success" showDetail="true" life="1500"/>
+			<p:panelGrid columns="3" class="kcare-table">
+				<f:facet name="header">
+					<p:outputLabel value="Bearbeitung: #{userDetailController.user}" />
+				</f:facet>
+
+				<p:outputLabel for="userName"
+					value="Benutzername: " />
+				<p:outputLabel id="userName"
+					value="#{userDetailController.user.userName}" />
+				<p:message for="userName" />
+
+				<p:outputLabel  for="roles"
+					value="Rolle: " />
+				<h:selectOneMenu id="roles"
+					value="#{userDetailController.user.role}" >
+					<f:selectItem itemLabel="#{userDetailController.user.role}" />
+					<f:selectItems value="#{userDetailController.freeRoles}" />
+				</h:selectOneMenu>
+				<p:message for="roles" />
+
+				<f:facet name="footer">
+					<h:panelGroup>
+						<p:commandButton id="submit" value="eintragen"
+							icon="fa fa-check" update="@form" action="#{userDetailController.save}" />
+						<p:button id="cancel" value="abbrechen"
+							outcome="/admin/users.xhtml" icon="fa fa-close" />
+					</h:panelGroup>
+				</f:facet>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

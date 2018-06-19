@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="createParentForm">
+			<p:focus />
+			<p:growl for="success" showDetail="true" />
+			<p:panelGrid styleClass="centred-form" columns="3" class="kcare-table">
+			<f:facet name="header">Erstellung: Eltern</f:facet>
+				<p:outputLabel id="userNameLabel" for="userNameInput" value="Username: "/>
+				<p:inputText id="userNameInput" value="#{parentCreateController.parent.user.userName}" validator="#{customValidators.validateUserName}">
+					<f:validateLength minimum="3" maximum="20" />
+					<p:ajax event="keydown" process="@this"
+						update="userNameLabel userNameInput userNameMessage" delay="500" />
+				</p:inputText>
+				<p:message id="userNameMessage" for="userNameInput" />
+
+				<p:outputLabel for="role" value="Rolle: " />
+				<p:inputText id="role"
+					value="#{parentCreateController.parent.user.roles}" disabled="true" />
+				<p:message for="role" />
+
+				<p:outputLabel for="mother" value="Mutter: " />
+				<p:panelGrid id="mother" columns="3" class="kcare-table">
+					<f:facet name="header">
+						<p:outputLabel value="Mutter" />
+					</f:facet>
+					
+					<p:outputLabel id="labelUlMother" value="Bild auswählen:" />
+					<p:fileUpload id="ulMother"
+						fileUploadListener="#{parentCreateController.uploadMother}"
+						label="Bild hinzufügen" auto="true"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="10000000"/>
+					<p:message for="ulMother" />
+					
+					<p:outputLabel for="firstNameMother" value="Vorname: " />
+					<p:inputText id="firstNameMother" value="#{parentCreateController.parent.mother.firstName}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="firstNameMother" />
+
+					<p:outputLabel for="lastNameMother" value="Nachname: " />
+					<p:inputText id="lastNameMother" value="#{parentCreateController.parent.mother.lastName}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="lastNameMother" />
+
+					<p:outputLabel for="mailMother" value="Email: " />
+					<p:inputText id="mailMother" value="#{parentCreateController.parent.mother.mail}">
+						<f:validateLength minimum="3" maximum="30" />
+					</p:inputText>
+					<p:message for="mailMother" />
+
+					<p:outputLabel for="phoneMother" value="Festnetz: " />
+					<p:inputText id="phoneMother" value="#{parentCreateController.parent.mother.phone}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="phoneMother" />
+
+					<p:outputLabel for="businessPhoneMother" value="Mobiltelefon: " />
+					<p:inputText id="businessPhoneMother" value="#{parentCreateController.parent.mother.businessPhone}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="businessPhoneMother" />
+
+					<p:outputLabel for="birthDateMother" value="Geburtsdatum: " />
+					<p:calendar id="birthDateMother" value="#{parentCreateController.parent.mother.birthDate}" mode="popup" showOn="button" navigator="true" locale="de" mask="true" yearRange="-100:+0" pattern="dd.MM.yyyy">
+						<f:validateRequired />
+					</p:calendar>
+					<p:message for="birthDateMother" />
+				</p:panelGrid>
+				<p:message for="mother" />
+
+				<p:outputLabel for="father" value="Vater: " />
+				<p:panelGrid id="father" columns="3" class="kcare-table">
+					<f:facet name="header"><p:outputLabel value="Vater" /></f:facet>
+					
+					<p:outputLabel id="labelUlFather" value="Bild auswählen:" />
+					<p:fileUpload id="ulFather"
+						fileUploadListener="#{parentCreateController.uploadFather}"
+						label="Bild hinzufügen" auto="true"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="10000000"/>
+					<p:message for="ulFather" />
+					
+					<p:outputLabel for="firstNameFather" value="Vorname: " />
+					<p:inputText id="firstNameFather" value="#{parentCreateController.parent.father.firstName}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="firstNameFather" />
+
+					<p:outputLabel for="lastNameFather" value="Nachname: " />
+					<p:inputText id="lastNameFather" value="#{parentCreateController.parent.father.lastName}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="lastNameFather" />
+
+					<p:outputLabel for="mailFather" value="Email: " />
+					<p:inputText id="mailFather" value="#{parentCreateController.parent.father.mail}">
+						<f:validateLength minimum="3" maximum="30" />
+					</p:inputText>
+					<p:message for="mailFather" />
+
+					<p:outputLabel for="phoneFather" value="Festnetz: " />
+					<p:inputText id="phoneFather" value="#{parentCreateController.parent.father.phone}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="phoneFather" />
+
+					<p:outputLabel for="businessPhoneFather" value="Mobiltelefon: " />
+					<p:inputText id="businessPhoneFather" value="#{parentCreateController.parent.father.businessPhone}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="businessPhoneFather" />
+
+					<p:outputLabel for="birthDateFather" value="Geburtsdatum: " />
+					<p:calendar id="birthDateFather" value="#{parentCreateController.parent.father.birthDate}" mode="popup" showOn="button" navigator="true" locale="de" mask="true" yearRange="-100:+0" pattern="dd.MM.yyyy">
+						<f:validateRequired />
+					</p:calendar>
+					<p:message for="birthDateFather" />
+				</p:panelGrid>
+				<p:message for="father" />
+
+				<p:outputLabel for="children" value="Kinder: "/>
+				<p:selectManyMenu id="children" value="#{parentCreateController.selectedChildren}" showCheckbox="true" scrollHeight="100">
+				<f:selectItems value="#{parentCreateController.freeChildren}" var="child" itemValue="#{child.id}" itemLabel="#{child.person.firstName} #{child.person.lastName}" />
+					validation disabled for testing
+					<f:validateRequired />
+				</p:selectManyMenu>
+				<p:message for="children" />
+
+				<f:facet name="footer">
+            		<p:commandButton id="submit" value="erstellen" ajax="false" icon="fa fa-check" action="#{parentCreateController.createParent}" />
+					<p:button id="cancel" value="abbrechen"  outcome="/secured/welcome.xhtml" icon="fa fa-close" />
+       			</f:facet>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+<!--
+
+-->

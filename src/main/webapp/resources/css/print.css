@@ -1,0 +1,11 @@
+@media print {
+
+	#content {
+		background: white !important;
+	}
+
+	.not-print, button, #header, #footer, tfoot, .ui-datatable-footer {
+		display: none !important;
+	}
+
+}

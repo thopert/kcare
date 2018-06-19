@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="editChildForm">
+			<p:growl id="success" for="success" showDetail="true" />
+			<p:panelGrid columns="2" class="kcare-table">
+			<f:facet name="header">Allgemeine Tagesplan-Daten:</f:facet>
+				<p:outputLabel for="calendar" value="Datum wählen:" />
+				<p:calendar id="calendar" value="#{setupScheduleController.date}" mode="inline" showOn="button" navigator="true" locale="de" mask="true" timeZone="CET" yearRange="-100:+0" pattern="dd.MM.yyyy">
+					<p:ajax event="dateSelect" update="plChild plSupervisor maxChildren"/>
+				</p:calendar>
+				<p:outputLabel for="maxChildren" value="Maximalbelegung: "/>
+				<p:inputText id="maxChildren" value="#{setupScheduleController.maxChildren}">
+					<f:validateLongRange minimum="0" maximum="30"/>
+				</p:inputText>
+			</p:panelGrid>
+
+            <br></br>
+
+			<p:panelGrid styleClass="centred-form" columns="1" class="kcare-table">
+			<f:facet name="header">Anwesende Kinder wählen:</f:facet>
+				<p:pickList id="plChild" value="#{setupScheduleController.children}" var="child" itemLabel="#{child}" itemValue="#{child}" >
+				<f:facet name="sourceCaption">Verfügbar</f:facet>
+        		<f:facet name="targetCaption">Angemeldet</f:facet>
+				</p:pickList>
+            </p:panelGrid>
+			
+            <br></br>
+
+			<p:panelGrid styleClass="centred-form" columns="1" class="kcare-table">
+			<f:facet name="header">Betreuer wählen:</f:facet>
+			<p:pickList id="plSupervisor" value="#{setupScheduleController.supervisors}"
+				var="supervisor" itemLabel="#{supervisor}" itemValue="#{supervisor}">
+				<f:facet name="sourceCaption">Verfügbar</f:facet>
+				<f:facet name="targetCaption">Eingeteilt</f:facet>
+			</p:pickList>
+			</p:panelGrid>
+
+            <br></br>
+
+			<p:panelGrid columns="3" class="kcare-table">
+				<f:facet name="header">Sichern:</f:facet>
+				<f:facet name="footer">
+					<p:commandButton id="submit" icon="fa fa-check" value="submit" update="@form" action="#{setupScheduleController.save}"/>
+					<p:commandButton id="cancel" value="cancel" process="@this" action="/secured/welcome.xhtml" icon="fa fa-close" />
+       			</f:facet>
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

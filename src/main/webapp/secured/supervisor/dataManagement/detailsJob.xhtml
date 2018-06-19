@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="editJobForm">
+			<p:growl for="success" showDetail="true"  life="1500"/>
+			<p:panelGrid columns="2" class="kcare-table">
+			<f:facet name="header">Job: #{jobDetailController.job.title}</f:facet>
+				<p:outputLabel  value="Titel: "/>
+				<p:outputLabel value="#{jobDetailController.job.title}" />
+
+				<p:outputLabel value="Beschreibung: " />
+				<p:outputLabel  value="#{jobDetailController.job.description}" />
+
+				<p:outputLabel  value="Eltern: " />
+				<h:outputLabel value="#{jobDetailController.parent}" />
+
+				<p:outputLabel  value="Beginn: " />
+				<p:outputLabel value="#{jobDetailController.job.startDate}" >
+					<f:convertDateTime pattern="dd.MM.yyyy" timeZone="CET" />
+				</p:outputLabel>
+
+				<p:outputLabel value="Ende: " />
+				<p:outputLabel value="#{jobDetailController.job.endDate}" >
+						<f:convertDateTime pattern="dd.MM.yyyy" timeZone="CET" />
+				</p:outputLabel>
+
+				<p:outputLabel  value="Erinnerung (#Tage): " rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"/>
+				<p:outputLabel id="daysBefore" value="#{jobDetailController.job.daysBefore}"
+				rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"/>
+				
+				<p:outputLabel for="done" value="Erledigt: " />
+				<p:outputLabel id="done" value="#{jobDetailController.job.done ? 'ja' : 'nein'}" />
+
+				<f:facet name="footer"><h:panelGroup>
+					<p:button id="cancel" value="zurück" icon="fa fa-arrow-left" outcome="/secured/supervisor/dataManagement/listJobs.xhtml" />
+				</h:panelGroup></f:facet>
+
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

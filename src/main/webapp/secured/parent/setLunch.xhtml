@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="setLunchForm">
+			<p:growl id="success" for="success" showDetail="true" life="1500"/>
+			<p:messages id="msgs" severity="error" />
+			<p:panelGrid columns="2" class="kcare-table">
+				<f:facet name="header">Meldung: Mittagessen</f:facet>
+				
+				<p:outputLabel for="calendar" value="Datum wählen:" />
+				<p:calendar id="calendar"
+					value="#{parentSetLunchController.date}" mode="inline"
+					showOn="button" navigator="true" locale="de" mask="true" timeZone="CET"
+					yearRange="-100:+0" pattern="dd.MM.yyyy" mindate="#{parentSetLunchController.lunchStart}"
+					maxdate="#{parentSetLunchController.lunchEnd}">
+					<p:ajax event="dateSelect" update="lunch"/>
+					<f:validateRequired/>
+				</p:calendar>
+					
+				<p:outputLabel for="children" value="Kind auswählen: " />
+				<h:selectOneMenu id="children" value="#{parentSetLunchController.childId}" >
+					<f:selectItems value="#{parentSetLunchController.children}" var="child" itemValue="#{child.id}" />
+					<p:ajax update="lunch"/>
+					<f:validateRequired/>
+				</h:selectOneMenu>
+				
+				<p:outputLabel for="lunch" value="Mittagessen: " />
+				<p:outputLabel id="lunch" value="#{parentSetLunchController.hasLunch()  ? 'JA' : 'NEIN'}" />
+				
+					
+				<f:facet name="footer"><h:panelGroup>
+	            		<p:commandButton id="submit" value="anmelden" icon="fa fa-check" update="success lunch msgs" actionListener="#{parentSetLunchController.save}" />
+						<p:commandButton id="remove" value="abmelden" icon="fa fa-trash" update="success lunch msgs" actionListener="#{parentSetLunchController.delete}" />
+						<p:button id="cancel" value="abbrechen" icon="fa fa-close" outcome="/secured/welcome.xhtml" />
+				</h:panelGroup></f:facet>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

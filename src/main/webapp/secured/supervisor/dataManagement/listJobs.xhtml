@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="listJobsForm">
+			<p:growl id="growl" for="success" showDetail="true" life="2000"/>
+			<h2 class="kcare-h2">Jobs:</h2>
+			<p:dataTable class="kcare-datatable" id="jobsDT" var="job"
+				value="#{jobListController.jobs}" sortBy="#{job.startDate}" sortOrder="ascending" widgetVar="jobs"
+				filteredValue="#{jobListController.filteredJobs}">
+				<p:column headerText="Titel" sortBy="#{job.title}" filterBy="#{job.title}" filterMatchMode="contains">
+					<h:outputText value="#{job.title}" />
+				</p:column>
+				<p:column headerText="Eltern" sortBy="#{job.parents.mother.lastName}" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"
+				filterBy="#{job.parents}" filterMatchMode="contains"> 
+					<h:outputText value="#{job.parents}" />
+				</p:column>
+						<p:column headerText="Von" sortBy="#{job.startDate}" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"
+				filterBy="#{job.startDateString}" filterMatchMode="contains">
+					<h:outputText value="#{job.startDate}">
+						<f:convertDateTime pattern="dd.MM.yy" timeZone="CET" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Bis" sortBy="#{job.endDate}" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"
+				filterBy="#{job.endDateString}" filterMatchMode="contains">
+					<h:outputText value="#{job.endDate}">
+						<f:convertDateTime pattern="dd.MM.yy" timeZone="CET" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Erledigt" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}" 
+				filterBy="#{job.done}">
+					<f:facet name="filter">
+						<p:selectOneMenu widgetVar="somDone"
+							onchange="PF('jobs').filter()">
+							<f:converter converterId="javax.faces.Boolean" />
+							<f:selectItem itemLabel="auswählen" itemValue="" />
+							<f:selectItem itemLabel="ja" itemValue="true" />
+							<f:selectItem itemLabel="nein" itemValue="false" />
+						</p:selectOneMenu>
+					</f:facet>
+					<p:selectBooleanCheckbox value="#{job.done}">
+						<p:ajax listener="#{jobListController.setDone(job)}"
+							update=":listJobsForm:growl" oncomplete="PF('jobs').filter()" />
+					</p:selectBooleanCheckbox>
+				</p:column>
+				<p:column>
+					<p:commandButton title="View" icon="fa fa-search"
+						action="/secured/supervisor/dataManagement/detailsJob.xhtml">
+						<f:setPropertyActionListener value="#{job}"
+							target="#{jobDetailController.job}" />
+					</p:commandButton>
+					<p:commandButton title="Edit" icon="fa fa-pencil"
+						action="/secured/supervisor/dataManagement/editJob.xhtml" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}">
+						<f:setPropertyActionListener value="#{job}"
+							target="#{jobDetailController.job}" />
+					</p:commandButton>
+					<p:commandButton title="Delete" icon="fa fa-trash"
+						action="#{jobDetailController.delete}" update="@form" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"
+						oncomplete="PF('jobs').clearFilters()">
+						<f:setPropertyActionListener value="#{job}"
+							target="#{jobDetailController.job}" />
+						<p:confirm header="Löschen"
+							message='Soll der Job "#{job.title}" unwiderruflich gelöscht werden?'
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="ja" type="button"
+					styleClass="ui-confirmdialog-yes delete" icon="fa fa-check" />
+				<p:commandButton value="nein" type="button"
+					styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+			</p:confirmDialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition>
+            <h:form id="header">
+                <p:menubar>
+                    <p:submenu label="Parents Submenu 1" rendered="#{sessionInfoBean.hasRole('PARENTS')}">
+                        <p:menuitem value="Settings" url="/secured/parent/parentSettings.xhtml"/>
+                        <p:menuitem value="Edit Child" url="/secured/parent/editChild.xhtml"/>
+                        <p:menuitem value="Create Contact" url="/secured/parent/createContact.xhtml"/>
+						<p:menuitem value="Set Absence" url="/secured/parent/setAbsence.xhtml"/>
+					</p:submenu>
+                    <p:submenu label="Parents Submenu 2" rendered="#{sessionInfoBean.hasRole('PARENTS')}">
+                        <p:menuitem value="Parents Action 2 - 1"/>
+                        <p:menuitem value="Parents Action 2 - 2"/>
+                    </p:submenu>
+                    <p:submenu label="Supervisor Submenu" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}">
+                        <p:menuitem value="Create Child" url="/secured/supervisor/dataManagement/createChild.xhtml"/>
+                        <p:menuitem value="List Children" url="/secured/supervisor/dataManagement/listChildren.xhtml"/>
+                    	<p:menuitem value="Create Parent" url="/secured/supervisor/dataManagement/createParent.xhtml"/>
+                    	<p:menuitem value="List Parents" url="/secured/supervisor/dataManagement/listParents.xhtml"/>
+                    	<p:menuitem value="List Contacts" url="/secured/supervisor/dataManagement/listContacts.xhtml"/>
+                    </p:submenu>
+                       <p:submenu label="Schedule" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}">
+                    	<p:menuitem value="Anzeigen" url="/secured/supervisor/schedule/schedule.xhtml"/>
+                    	<p:menuitem value="Anpassen" url="/secured/supervisor/schedule/setupSchedule.xhtml"/>
+                    </p:submenu>
+                     <p:submenu label="Jobs" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}">
+                    	<p:menuitem value="Job erstellen" url="/secured/supervisor/dataManagement/createJob.xhtml"/>
+                    	<p:menuitem value="Jobs anzeigen" url="/secured/supervisor/dataManagement/listJobs.xhtml"/>
+                    </p:submenu>
+                    <p:submenu label="Admin Submenu" rendered="#{sessionInfoBean.hasRole('ADMIN')}">
+                        <p:menuitem value="Manage Users" url="/admin/users.xhtml"/>
+                        <p:menuitem value="Create Supervisor" url="/admin/createSupervisor.xhtml"/>
+                    </p:submenu>
+                    <p:submenu label="Test Submenu" rendered="#{sessionInfoBean.loggedIn}">
+                        <p:menuitem value="Security Test" url="/secured/test.xhtml"/>
+                    </p:submenu>
+                    <p:menuitem value="Login" url="/login.xhtml" rendered="#{!sessionInfoBean.loggedIn}"/>
+                    <p:menuitem value="Home" url="/secured/welcome.xhtml" rendered="#{sessionInfoBean.loggedIn}"/>
+                    <p:submenu label="Account settings" rendered="#{sessionInfoBean.loggedIn and !sessionInfoBean.hasRole('PARENTS')}">
+                    	<p:menuitem value="Change Password" url="/secured/common/editPassword.xhtml" rendered="#{sessionInfoBean.loggedIn}"/>
+                    </p:submenu>
+                    <p:menuitem value="Logout" url="/logout" rendered="#{sessionInfoBean.loggedIn}"/>
+                </p:menubar>
+            </h:form>
+        </ui:composition>
+    </body>
+</html>
+

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="detailsSupervisorForm">
+			<p:growl for="success" showDetail="true" />
+			<p:panelGrid columns="2" class="kcare-table">
+				<f:facet name="header">Personaldaten: #{supervisorDetailController.supervisor.person}</f:facet>
+
+				<p:outputLabel for="picture" value="Bild: " />
+				<p:graphicImage id="picture"
+					value="#{supervisorDetailController.supervisor.person.displayPicture}"
+					width="300" height="200" />
+
+				<p:outputLabel for="firstName" value="Vorname: " />
+				<p:outputLabel id="firstName"
+					value="#{supervisorDetailController.supervisor.person.firstName}"/>
+
+				<p:outputLabel for="lastName" value="Nachname: " />
+				<p:outputLabel id="lastName"
+					value="#{supervisorDetailController.supervisor.person.lastName}" />
+
+				<p:outputLabel for="sex" value="Geschlecht: " />
+				<p:outputLabel id="sex"
+					value="#{supervisorDetailController.supervisor.person.sex ? 'weiblich' : 'männlich'}" />
+					
+				<p:outputLabel for="birthDate" value="Geburtsdatum: " />
+				<p:outputLabel id="birthDate"
+					value="#{supervisorDetailController.supervisor.person.birthDate}">
+					<f:convertDateTime pattern="dd.MM.yyyy" timeZone="CET" />
+				</p:outputLabel>
+
+				<p:outputLabel for="mail" value="Email: " />
+				<p:outputLabel id="mail"
+					value="#{supervisorDetailController.supervisor.person.mail}" />
+
+				<p:outputLabel for="phone" value="Telefon privat: " />
+				<p:outputLabel id="phone"
+					value="#{supervisorDetailController.supervisor.person.phone}" />
+
+				<p:outputLabel for="businessPhone" value="Telefon geschäftlich: " />
+				<p:outputLabel id="businessPhone"
+					value="#{supervisorDetailController.supervisor.person.businessPhone}" />
+
+				<f:facet name="footer">
+					<h:panelGroup>
+						<p:button id="cancel" value="zurück" icon="fa fa-arrow-left"
+							outcome="/admin/listSupervisors.xhtml" />
+					</h:panelGroup>
+				</f:facet>
+			</p:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

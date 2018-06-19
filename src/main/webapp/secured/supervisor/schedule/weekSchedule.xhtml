@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="weekScheduleForm">
+			<p:growl id="success" for="success" showDetail="true" />
+			<h2 class="kcare-h2">Wochenplan:</h2>
+			<p:dataTable class="kcare-datatable" id="children"
+				value="#{weekScheduleController.weekScheduleEntries}" var="wsc" 
+				filteredValue="#{weekScheduleController.filteredWeekScheduleEntries}" widgetVar="childDT"
+				sortBy="#{wsc.child}" sortMode="ascending">
+				<f:facet name="header">
+					<p:outputLabel value="#{weekScheduleController.weekStart}">
+						<f:convertDateTime pattern="dd.MM.yyyy" locale="de" timeZone="CET" />
+					</p:outputLabel>
+					<p:outputLabel value=" - " />
+					<p:outputLabel value="#{weekScheduleController.weekEnd}">
+						<f:convertDateTime pattern="dd.MM.yyyy" locale="de" timeZone="CET" />
+					</p:outputLabel>
+				</f:facet>
+				<p:column headerText="Name" sortBy="#{wsc.child}" filterBy="#{wsc.child}" filterMatchMode="contains">
+					<h:outputText value="#{wsc.child}" />
+				</p:column>
+				<p:column headerText="Montag" filterBy="#{wsc.days[0]}">
+					<f:facet name="filter">
+						<p:selectOneMenu widgetVar="somMo"
+							onchange="PF('childDT').filter()">
+							<f:converter converterId="javax.faces.Boolean" />
+							<f:selectItem itemLabel="auswählen" itemValue="" />
+							<f:selectItem itemLabel="ja" itemValue="true" />
+							<f:selectItem itemLabel="nein" itemValue="false" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{wsc.days[0] ? 'X' : '-'}" />
+				</p:column>
+				<p:column headerText="Dienstag" filterBy="#{wsc.days[1]}">
+					<f:facet name="filter">
+						<p:selectOneMenu widgetVar="somDi"
+							onchange="PF('childDT').filter()">
+							<f:converter converterId="javax.faces.Boolean" />
+							<f:selectItem itemLabel="auswählen" itemValue="" />
+							<f:selectItem itemLabel="ja" itemValue="true" />
+							<f:selectItem itemLabel="nein" itemValue="false" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{wsc.days[1] ? 'X' : '-'}" />
+				</p:column>
+				<p:column headerText="Mittwoch" filterBy="#{wsc.days[2]}">
+					<f:facet name="filter">
+						<p:selectOneMenu widgetVar="somMi"
+							onchange="PF('childDT').filter()">
+							<f:converter converterId="javax.faces.Boolean" />
+							<f:selectItem itemLabel="auswählen" itemValue="" />
+							<f:selectItem itemLabel="ja" itemValue="true" />
+							<f:selectItem itemLabel="nein" itemValue="false" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{wsc.days[2] ? 'X' : '-'}" />
+				</p:column>
+				<p:column headerText="Donnerstag" filterBy="#{wsc.days[3]}">
+					<f:facet name="filter">
+						<p:selectOneMenu widgetVar="somDo"
+							onchange="PF('childDT').filter()">
+							<f:converter converterId="javax.faces.Boolean" />
+							<f:selectItem itemLabel="auswählen" itemValue="" />
+							<f:selectItem itemLabel="ja" itemValue="true" />
+							<f:selectItem itemLabel="nein" itemValue="false" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{wsc.days[3] ? 'X' : '-'}" />
+				</p:column>
+				<p:column headerText="Freitag" filterBy="#{wsc.days[4]}">
+					<f:facet name="filter">
+						<p:selectOneMenu widgetVar="somFr"
+							onchange="PF('childDT').filter()">
+							<f:converter converterId="javax.faces.Boolean" />
+							<f:selectItem itemLabel="auswählen" itemValue="" />
+							<f:selectItem itemLabel="ja" itemValue="true" />
+							<f:selectItem itemLabel="nein" itemValue="false" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{wsc.days[4] ? 'X' : '-'}" />
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton  update="children"
+						actionListener="#{weekScheduleController.previousWeek}" icon="fa fa-arrow-left" value="zurück"
+						oncomplete="PF('childDT').clearFilters();PF('somMo').selectValue('');PF('somDi').selectValue('');
+				PF('somMi').selectValue('');PF('somDo').selectValue('');PF('somFr').selectValue('')"/>
+					<p:commandButton  update="children"
+						actionListener="#{weekScheduleController.nextWeek}" icon="fa fa-arrow-right" value="vorwärts" 
+						oncomplete="PF('childDT').clearFilters();PF('somMo').selectValue('');PF('somDi').selectValue('');
+				PF('somMi').selectValue('');PF('somDo').selectValue('');PF('somFr').selectValue('')"/>
+				</f:facet>
+			</p:dataTable>
+		
+			
+		</h:form>
+
+	</ui:define>
+</ui:composition>

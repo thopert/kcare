@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="editParentForm">
+			<p:focus />
+			<p:growl for="success" showDetail="true" life="2000"/>
+
+			<p:panelGrid columns="3" class="kcare-table">
+				<f:facet name="header">
+				<p:outputLabel value="Bearbeitung: #{parentDetailController.parent}" />
+				</f:facet>
+				
+				<p:outputLabel id="userNameLabel" for="userNameInput" value="Benutzername: " />
+				<p:outputLabel id="userNameInput" value="#{parentDetailController.parent.user.userName}"/>
+				<p:message id="userNameMessage" for="userNameInput" />
+
+				<p:outputLabel for="role" value="Rolle: " rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"/>
+				<p:outputLabel id="role" value="#{parentDetailController.parent.user.roles}"  rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}" />
+				<p:message for="role" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"/>
+				
+				<p:outputLabel id="activeLabel" for="active" value="Status: " rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}" />
+				<p:selectOneRadio id="active"
+					value="#{parentDetailController.parent.active}" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}">
+					<f:selectItem itemLabel="aktiv" itemValue="true" />
+					<f:selectItem itemLabel="inaktiv" itemValue="false" />
+					<f:validateRequired />
+				</p:selectOneRadio>
+				<p:message for="active" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"/>
+
+				<p:outputLabel for="mother" value="Mutter: " />
+				<p:panelGrid id="mother" columns="3" class="kcare-table">
+					<f:facet name="header"><p:outputLabel value="Mutter bearbeiten:" /></f:facet>
+					
+					<p:outputLabel for="pictureMother" value="Bild: " />
+					<p:graphicImage id="pictureMother"
+						value="#{parentDetailController.parent.mother.displayPicture}"
+						width="300" height="200" />
+					<p:message for="pictureMother" />
+
+					<p:outputLabel id="labelUlMother" value="Bild auswählen:" />
+					<p:fileUpload id="ulMother"
+						fileUploadListener="#{parentDetailController.uploadMother}"
+						label="Bild hinzufügen" auto="true" update="pictureMother"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="10000000"/>
+					<p:message for="ulMother" />
+					
+					<p:outputLabel for="firstNameMother" value="Vorname: " />
+					<p:inputText id="firstNameMother"
+						value="#{parentDetailController.parent.mother.firstName}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="firstNameMother" />
+
+					<p:outputLabel for="lastNameMother" value="Nachname: " />
+					<p:inputText id="lastNameMother"
+						value="#{parentDetailController.parent.mother.lastName}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="lastNameMother" />
+
+					<p:outputLabel for="mailMother" value="Email: " />
+					<p:inputText id="mailMother"
+						value="#{parentDetailController.parent.mother.mail}">
+						<f:validateLength minimum="3" maximum="30" />
+					</p:inputText>
+					<p:message for="mailMother" />
+
+					<p:outputLabel for="phoneMother" value="Festnetz: " />
+					<p:inputText id="phoneMother"
+						value="#{parentDetailController.parent.mother.phone}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="phoneMother" />
+
+					<p:outputLabel for="businessPhoneMother" value="Mobiltelefon: " />
+					<p:inputText id="businessPhoneMother"
+						value="#{parentDetailController.parent.mother.businessPhone}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="businessPhoneMother" />
+
+					<p:outputLabel for="birthDateMother" value="Geburtsdatum: " />
+					<p:calendar id="birthDateMother"
+						value="#{parentDetailController.parent.mother.birthDate}"
+						mode="popup" showOn="button" navigator="true" locale="de"
+						mask="true" yearRange="-100:+0" pattern="dd.MM.yyyy">
+						<f:validateRequired />
+					</p:calendar>
+					<p:message for="birthDateMother" />
+				</p:panelGrid>
+				<p:message for="mother" />
+
+				<p:outputLabel for="father" value="Vater: " />
+				<p:panelGrid id="father" columns="3" class="kcare-table">
+					<f:facet name="header"><p:outputLabel value="Vater bearbeiten:" /></f:facet>
+
+					<p:outputLabel for="pictureFather" value="Bild: " />
+					<p:graphicImage id="pictureFather"
+						value="#{parentDetailController.parent.father.displayPicture}"
+						width="300" height="200" />
+					<p:message for="pictureFather" />
+
+					<p:outputLabel id="labelUlFather" value="Bild auswählen:" />
+					<p:fileUpload id="ulFather"
+						fileUploadListener="#{parentDetailController.uploadFather}"
+						label="Bild hinzufügen" auto="true" update="pictureFather"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="10000000"/>
+					<p:message for="ulFather" />
+					
+					<p:outputLabel for="firstNameFather" value="Vorname: " />
+					<p:inputText id="firstNameFather"
+						value="#{parentDetailController.parent.father.firstName}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="firstNameFather" />
+
+					<p:outputLabel for="lastNameFather" value="Nachname: " />
+					<p:inputText id="lastNameFather" value="#{parentDetailController.parent.father.lastName}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="lastNameFather" />
+
+					<p:outputLabel for="mailFather" value="Email: " />
+					<p:inputText id="mailFather" value="#{parentDetailController.parent.father.mail}">
+						<f:validateLength minimum="3" maximum="30" />
+					</p:inputText>
+					<p:message for="mailFather" />
+
+					<p:outputLabel for="phoneFather" value="Festnetz: " />
+					<p:inputText id="phoneFather" value="#{parentDetailController.parent.father.phone}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="phoneFather" />
+
+					<p:outputLabel for="businessPhoneFather" value="Mobiltelefon: " />
+					<p:inputText id="businessPhoneFather" value="#{parentDetailController.parent.father.businessPhone}">
+						<f:validateLength minimum="3" maximum="20" />
+					</p:inputText>
+					<p:message for="businessPhoneFather" />
+
+					<p:outputLabel for="birthDateFather" value="Geburtsdatum: " />
+					<p:calendar id="birthDateFather" value="#{parentDetailController.parent.father.birthDate}" mode="popup" showOn="button" navigator="true" locale="de" mask="true" yearRange="-100:+0" pattern="dd.MM.yyyy">
+						<f:validateRequired />
+					</p:calendar>
+					<p:message for="birthDateFather" />
+				</p:panelGrid>
+				<p:message for="father" />
+
+				<f:facet name="footer"><h:panelGroup>
+			<p:commandButton id="submit" value="eintragen" ajax="false" icon="fa fa-check" action="#{parentDetailController.saveParent}"/>
+			<p:button id="cancelSup" value="abbrechen" outcome="/secured/supervisor/dataManagement/listParents.xhtml" icon="fa fa-close"  rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"/>
+			<p:button id="cancelPar" value="abbrechen" outcome="/secured/welcome.xhtml" icon="fa fa-close" 
+			rendered="#{sessionInfoBean.hasRole('PARENTS')}"/>
+				</h:panelGroup></f:facet>
+
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

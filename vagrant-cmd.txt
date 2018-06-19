@@ -1,0 +1,5 @@
+clone
+vagrant up
+vagrant ssh
+cd /vagrant/
+mvn clean spring-boot:run

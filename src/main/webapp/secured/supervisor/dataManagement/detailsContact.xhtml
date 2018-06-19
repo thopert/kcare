@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="contactDetailsForm">
+			<p:panelGrid columns="2" class="kcare-table">
+				<f:facet name="header">
+				Personaldaten: #{contactDetailController.contact}
+				</f:facet>
+				
+				<p:outputLabel for="picture" value="Bild: " class="not-print" />
+				<p:graphicImage id="picture"
+					value="#{contactDetailController.contact.person.displayPicture}"
+					width="300" height="200" class="not-print" />
+
+				<p:outputLabel for="firstName" value="Vorname: " />
+				<p:outputLabel id="firstName"
+					value="#{contactDetailController.contact.person.firstName}"/>
+
+				<p:outputLabel for="lastName" value="Nachname: " />
+				<p:outputLabel  id="lastName"
+					value="#{contactDetailController.contact.person.lastName}"/>
+
+				<p:outputLabel for="sex" value="Geschlecht: " />
+				<p:outputLabel id="sex"
+					value="#{contactDetailController.contact.person.sex ? 'weiblich' : 'männlich'}"/>
+
+				<p:outputLabel for="mail" value="Email: " />
+				<p:outputLabel id="mail"
+					value="#{contactDetailController.contact.person.mail}"/>
+
+				<p:outputLabel for="phone" value="Festnetz: " />
+				<p:outputLabel id="phone"
+					value="#{contactDetailController.contact.person.phone}"/>
+
+				<p:outputLabel for="businessPhone" value="Mobiltelefon: " />
+				<p:outputLabel id="businessPhone"
+					value="#{contactDetailController.contact.person.businessPhone}"/>
+
+				<p:outputLabel for="birthDate" value="Geburtsdatum: " />
+				<p:outputLabel id="birthDate"
+					value="#{contactDetailController.contact.person.birthDate}">
+					<f:convertDateTime pattern="dd.MM.yyyy" timeZone="CET" />
+				</p:outputLabel>
+
+				<p:outputLabel for="verification" value="Verifiziert: "/>
+				<p:outputLabel id="verification" value="#{contactDetailController.contact.verification ? 'JA' : 'NEIN'}"/>
+				
+				<p:outputLabel for="children" value="Bezugsperson von: " />
+				<p:dataList id="children" value="#{contactDetailController.children}" var="child" >
+        			#{child.person.firstName}, #{child.person.lastName}
+    			</p:dataList>
+    			<f:facet name="footer">
+					<p:button id="cancel" value="zurück" icon="fa fa-arrow-left"
+						outcome="/secured/supervisor/dataManagement/listContacts.xhtml" />
+				</f:facet>
+			</p:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="editParentForm">
+			<p:growl for="success" showDetail="true" />
+			<p:panelGrid columns="2" class="kcare-table">
+				<f:facet name="header">
+				<p:outputLabel value="Personaldaten: #{parentDetailController.parent}" />
+				</f:facet>
+				
+				<p:outputLabel id="userNameLabel" for="userNameInput" value="Benutzername: " />
+				<p:outputLabel id="userNameInput" value="#{parentDetailController.parent.user.userName}"/>
+				
+				<p:outputLabel id="activeLabel" for="active" value="Status: " />
+				<p:outputLabel id="active" value="#{parentDetailController.parent.active ? 'aktiv' : 'inaktiv'}"/>
+
+				<p:outputLabel for="children" value="Kinder: " />
+				<p:dataList id="children" value="#{parentDetailController.children}"
+					var="child">
+       					 #{child}
+   				</p:dataList>
+
+				<p:outputLabel for="mother" value="Mutter: " />
+				<p:panelGrid id="mother" columns="2" class="kcare-table">
+					<f:facet name="header"><p:outputLabel value="Mutter" /></f:facet>
+					
+					<p:outputLabel for="pictureMother" value="Bild: " class="not-print" />
+					<p:graphicImage id="pictureMother"
+						value="#{parentDetailController.parent.mother.displayPicture}"
+						width="300" height="200" class="not-print" />
+					
+					<p:outputLabel for="firstNameMother" value="Vorname: " />
+					<p:outputLabel id="firstNameMother"
+						value="#{parentDetailController.parent.mother.firstName}"/>
+					
+					<p:outputLabel for="lastNameMother" value="Nachname: " />
+					<p:outputLabel id="lastNameMother"
+						value="#{parentDetailController.parent.mother.lastName}"/>
+
+					<p:outputLabel for="mailMother" value="Email: " />
+					<p:outputLabel id="mailMother"
+						value="#{parentDetailController.parent.mother.mail}" />
+
+					<p:outputLabel for="phoneMother" value="Festnetz: " />
+					<p:outputLabel id="phoneMother"
+						value="#{parentDetailController.parent.mother.phone}" />
+
+					<p:outputLabel for="businessPhoneMother" value="Mobiltelefon: " />
+					<p:outputLabel id="businessPhoneMother"
+						value="#{parentDetailController.parent.mother.businessPhone}" />
+
+					<p:outputLabel for="birthDateMother" value="Geburtsdatum: " />
+					<p:outputLabel id="birthDateMother"
+						value="#{parentDetailController.parent.mother.birthDate}" >
+						<f:convertDateTime pattern="dd.MM.yyyy" timeZone="CET" />
+					</p:outputLabel>
+						
+				</p:panelGrid>
+
+				<p:outputLabel for="father" value="Vater: " />
+				<p:panelGrid id="father" columns="2" class="kcare-table">
+					<f:facet name="header"><p:outputLabel value="Vater" /></f:facet>
+
+					<p:outputLabel for="pictureFather" value="Bild: " class="not-print" />
+					<p:graphicImage id="pictureFather"
+						value="#{parentDetailController.parent.father.displayPicture}"
+						width="300" height="200" class="not-print" />
+
+					<p:outputLabel for="firstNameFather" value="Vorname: " />
+					<p:outputLabel id="firstNameFather"
+						value="#{parentDetailController.parent.father.firstName}" />
+
+					<p:outputLabel for="lastNameFather" value="Nachname: " />
+					<p:outputLabel id="lastNameFather" value="#{parentDetailController.parent.father.lastName}" />
+
+					<p:outputLabel for="mailFather" value="Email: " />
+					<p:outputLabel id="mailFather" value="#{parentDetailController.parent.father.mail}"/>
+
+					<p:outputLabel for="phoneFather" value="Festnetz: " />
+					<p:outputLabel id="phoneFather" value="#{parentDetailController.parent.father.phone}" />
+
+					<p:outputLabel for="businessPhoneFather" value="Mobiltelefon: " />
+					<p:outputLabel id="businessPhoneFather" value="#{parentDetailController.parent.father.businessPhone}" />
+
+					<p:outputLabel for="birthDateFather" value="Geburtsdatum: " />
+					<p:outputLabel  id="birthDateFather" value="#{parentDetailController.parent.father.birthDate}">
+						<f:convertDateTime pattern="dd.MM.yyyy" timeZone="CET" />
+					</p:outputLabel>
+				</p:panelGrid>
+
+				<f:facet name="footer">
+					<h:panelGroup>
+						<p:button id="cancelPar" value="zurück" outcome="/secured/supervisor/dataManagement/listParents.xhtml" icon="fa fa-arrow-left" />
+					</h:panelGroup>
+				</f:facet>
+
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

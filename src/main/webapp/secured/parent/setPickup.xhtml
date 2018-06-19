@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="setPickupForm">
+			<p:growl id="growl" for="success" showDetail="true" life="1500" />
+			<p:messages id="msgs" severity="error" />
+			<p:panelGrid columns="2" class="kcare-table">
+				<f:facet name="header">Meldung: Abholperson</f:facet>
+
+				<p:outputLabel for="calendar" value="Datum wählen:" />
+				<p:calendar id="calendar" value="#{parentSetPickupController.date}"
+					mode="inline" showOn="button" navigator="true" locale="de"
+					mask="true" timeZone="CET" yearRange="-100:+0" pattern="dd.MM.yyyy"
+					disabledWeekends="true">
+					<p:ajax event="dateSelect" update="pickup" />
+					<f:validateRequired />
+				</p:calendar>
+
+				<p:outputLabel for="children" value="Kind auswählen: " />
+				<h:selectOneMenu id="children"
+					value="#{parentSetPickupController.childId}">
+					<f:selectItems value="#{parentSetPickupController.children}"
+						var="child" itemValue="#{child.id}" />
+					<p:ajax update="pickup" />
+					<f:validateRequired />
+				</h:selectOneMenu>
+
+				<p:outputLabel for="contacts" value="Kontakt auswählen: " />
+				<h:selectOneMenu id="contacts"
+					value="#{parentSetPickupController.contactId}">
+					<f:selectItems value="#{parentSetPickupController.contacts}"
+						var="contact" itemValue="#{contact.id}" />
+					<f:validateRequired />
+				</h:selectOneMenu>
+
+				<p:outputLabel for="pickup" value="Abholperson: " />
+				<p:outputLabel id="pickup"
+					value="#{parentSetPickupController.pickup != null ? 
+					parentSetPickupController.pickup : 'NEIN'}" />
+
+				<f:facet name="footer">
+					<h:panelGroup>
+						<p:commandButton id="submit" value="eintragen" icon="fa fa-check"
+							update="pickup growl msgs"
+							actionListener="#{parentSetPickupController.save}" />
+						<p:commandButton id="delete" value="austragen"
+							icon="fa fa-trash" update="pickup growl msgs"
+							actionListener="#{parentSetPickupController.delete}" />
+						<p:button id="cancel" value="abbrechen" icon="fa fa-close"
+							outcome="/secured/welcome.xhtml" />
+					</h:panelGroup>
+				</f:facet>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

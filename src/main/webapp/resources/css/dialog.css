@@ -1,0 +1,103 @@
+/*
+	Styles for warnings, notes, etc.
+*/
+.ui-message {
+	margin: 0 !important;
+	font-family: "Sniglet" !important;
+	font-weight: 300 !important;
+	font-size: 0.8rem !important;
+	max-width: 20vw !important;
+}
+
+.ui-dialog {
+	border: none !important;
+	box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.3) !important;
+	border-radius: 0.25rem !important;
+	overflow: hidden !important;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+	position: relative;
+	padding: 0.5rem !important;
+	background: #0c9 !important;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+	box-shadow: none !important;
+	border: none !important;
+	background: none !important;
+}
+
+.ui-dialog .ui-icon-closethick {
+	position: absolute !important;
+	top: 0.7rem !important;
+	right: 0.7rem !important;
+	border: none !important;
+	box-shadow: none !important;
+	background-image: url(/resources/images/close.svg) !important;
+	background-position: 0 0 !important;
+}
+
+.ui-dialog .ui-dialog-title {
+	margin: 0 !important;
+	text-shadow: none !important;
+	font-family: "Sniglet" !important;
+	font-weight: 300 !important;
+	font-size: 1.25rem !important;
+	color: white !important;
+}
+
+.ui-dialog .ui-dialog-content {
+	padding: 0 !important;
+}
+
+.ui-dialog .ui-confirm-dialog-severity {
+	display: none;
+}
+
+.ui-confirm-dialog {
+	width: 300px !important;
+}
+
+.ui-dialog .ui-confirm-dialog-message {
+	margin: 1rem;
+	font-family: "Roboto" !important;
+	font-weight: 300 !important;
+	font-size: 1rem !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+	border: none !important;
+	margin: 0 !important;
+	background: #eee !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane button {
+	font-size: 0.9rem !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane button:not(:last-of-type) {
+	margin-right: 1rem !important;
+}
+
+/* separator */
+.ui-dialog hr {
+	border: 1px solid #eee !important;
+}
+
+/* button box */
+.ui-dialog table:last-of-type {
+	width: 100% !important;
+	background: #eee !important;
+	border-radius: 0 !important;
+}
+
+.ui-dialog table:last-of-type td {
+	text-align: center;
+}
+
+.ui-dialog table:last-of-type button {
+	padding: 0.3rem 0.5rem !important;
+	background: #0c9 !important;
+	border: 1px solid #0c9 !important;
+}

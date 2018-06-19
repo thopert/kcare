@@ -1,0 +1,423 @@
+h1.kcare-headline {
+	padding: 1rem 0;
+	font-weight: 100;
+	font-size: 3rem;
+	text-align: center;
+	color: white;
+	text-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+.kcare-h2 {
+	margin: 0 0 0.5rem 0;
+	padding: 0;
+	font-family: "Sniglet";
+	font-weight: 100;
+	font-size: 2rem;
+	color: white;
+	text-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+.kcare-menu-container {
+	margin: 0 auto !important;
+}
+
+.kcare-menu-container > tbody > tr {
+	background: transparent !important;
+}
+
+.kcare-menu-container > tbody > tr > td {
+	vertical-align: top !important;
+}
+
+.kcare-menu {
+	min-width: 17rem !important;
+	margin: 0 auto !important;
+	box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.25);
+	border-spacing: 0 0 !important;
+	border-radius: 0.25rem !important;
+	overflow: hidden !important;
+}
+
+.kcare-menu tbody td {
+	padding: 0 !important;
+}
+
+.kcare-menu a {
+	display: block;
+	padding: 1rem !important;
+	color: #666 !important;
+}
+
+.kcare-menu a:hover {
+	background: #eee;
+}
+
+/*
+	kcare datatables
+*/
+.kcare-datatable {
+	box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.3);
+	border-radius: 0.25rem !important;
+	overflow: hidden !important;
+}
+
+.kcare-datatable table {
+	width: 100% !important;
+}
+
+.kcare-datatable .ui-datatable-subtable-header {
+	background-color: #eee !important;
+	font-weight: 300 !important;
+	text-shadow: none !important;
+}
+
+.kcare-datatable .ui-datatable-subtable-header:after {
+	content: " :";
+}
+
+.kcare-datatable th {
+	box-shadow: none !important;
+	border: none !important;
+}
+
+.kcare-datatable .ui-sortable-column-icon {
+	display: inline-block !important;
+	margin: 0 0 -4px 0.5rem !important;
+	background-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.kcare-datatable .ui-sortable-column-icon.ui-icon.ui-icon-carat-2-n-s {
+	background-image: url(/resources/images/sort.svg) !important;
+	background-position: 0 0 !important;
+	
+}
+
+.kcare-datatable .ui-sortable-column-icon.ui-icon.ui-icon-carat-2-n-s.ui-icon-triangle-1-n {
+	background-image: url(/resources/images/sort-down.svg) !important;
+}
+
+.kcare-datatable .ui-sortable-column-icon.ui-icon.ui-icon-carat-2-n-s.ui-icon-triangle-1-s {
+	background-image: url(/resources/images/sort-up.svg) !important;
+}
+
+.kcare-datatable thead tr {
+	background: #0c9 !important;
+	padding: 0 !important;
+}
+
+.kcare-datatable table tr td:first-of-type {
+	width: 100% !important;
+}
+
+.kcare-datatable table tr td {
+	white-space: nowrap;
+}
+
+.kcare-datatable button[title="View"] {
+	background: transparent !important;
+	border: 1px solid lightgrey !important;
+}
+
+.kcare-datatable button[title="Edit"] {
+	background: transparent !important;
+	border: 1px solid lightblue !important;
+}
+
+.kcare-datatable button[title="Delete"] {
+	background: transparent !important;
+	border: 1px solid #ff8566 !important;
+}
+
+.kcare-datatable button[title="View"]:hover {
+	background: lightgrey !important;
+}
+
+.kcare-datatable button[title="Edit"]:hover {
+	background: lightblue !important;
+}
+
+.kcare-datatable button[title="Delete"]:hover {
+	background: #ff8566 !important;
+}
+
+.kcare-datatable .ui-datatable-header {
+	padding: 0.5rem !important;
+	background: #0c9 !important;
+	color: white !important;
+	text-shadow: none !important;
+	border: none !important;
+	border-radius: 0 !important;
+}
+
+.kcare-datatable .ui-datatable-header label {
+	font-family: "Sniglet" !important;
+	font-weight: 300 !important;
+	font-size: 1rem !important;
+}
+
+.kcare-datatable .ui-datatable-footer, .kcare-datatable tfoot td {
+	background: #eee !important;
+	border: none !important;
+}
+
+.kcare-datatable .ui-datatable-footer button {
+	padding: 0.5rem 0.5rem 0.5rem 2rem !important;
+	font-family: "Sniglet" !important;
+	font-weight: 300 !important;
+	font-size: 0.9rem !important;
+	color: #333 !important;
+}
+
+.kcare-datatable .ui-datatable-footer button .ui-icon {
+	left: 1rem !important;
+}
+
+.kcare-datatable .ui-datatable-footer button:not(:last-of-type) {
+	margin-right: 1rem !important;
+}
+
+/* fix icon pos */
+.kcare-datatable button {
+	padding: 16px !important;
+	align-items: initial !important;
+}
+
+.kcare-datatable button .fa {
+	margin: -8px 0 0 -8px !important;
+	line-height: 16px !important;
+}
+
+.kcare-datatable button.ui-button-icon-only .ui-button-text {
+	display: none !important;
+}
+
+.kcare-datatable .ui-commandlink {
+	display: inline-block;
+	margin-left: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 0.5rem;
+	color: #333 !important;
+	font-family: "Sniglet" !important;
+	font-weight: 300 !important;
+	font-size: 0.9rem !important;
+	background: transparent;
+	border: 1px solid white;
+	border-radius: 0.25rem;
+	transition: background 0.2s;
+}
+
+.kcare-datatable .ui-commandlink:hover {
+	background: white;
+	transition: background 0.2s;
+}
+
+.kcare-datatable .ui-commandlink:not(:last-of-type) {
+	margin-right: 0.5rem;
+}
+
+.kcare-datatable .ui-commandlink:last-of-type {
+	margin-right: 0;
+}
+
+.kcare-datatable .ui-datatable-footer {
+	text-align: right !important;
+	padding: 0.5rem !important;
+}
+
+/*
+	kcare tables
+*/
+.kcare-table {
+	width: 100% !important;
+	box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.3);
+	border-radius: 0.25rem !important;
+	overflow: hidden !important;
+}
+
+.kcare-table thead label {
+	font-family: "Sniglet" !important;
+}
+
+.kcare-table input[type="text"], .kcare-table input[type="password"], .kcare-table textarea {
+	width: 100% !important;
+}
+
+.kcare-table .ui-selectmanymenu {
+	width: 100% !important;
+}
+
+.kcare-table input[type="text"].hasDatepicker {
+	width: calc(100% - 40px) !important;
+	float: left;
+}
+
+.kcare-table .ui-datepicker-trigger {
+	margin-left: 6px !important;
+}
+
+.kcare-table .ui-datalist {
+	border: solid 1px #ccc !important;
+	border-radius: 0.25rem !important;
+}
+
+.kcare-table .ui-datalist > div {
+	padding: 0.5rem;
+	border: none !important;
+}
+
+.kcare-table .ui-datalist ul {
+	list-style-type: circle;
+	margin: 0 !important;
+	padding: 0 0 0 1.25rem !important;
+}
+
+.kcare-table .ui-datalist ul li:not(:last-of-type) {
+	padding: 0 0 0.5rem 0 !important;
+}
+
+/* kcare-calendar */
+.kcare-calendar .fc-view {
+	border-radius: 0.25rem !important;
+	overflow: hidden !important;
+}
+
+.kcare-calendar .fc-view > table {
+	width: 100% !important;
+}
+
+.kcare-calendar .fc-view > table table {
+	width: 100% !important;
+	table-layout: fixed !important;
+}
+
+.kcare-calendar .fc-view > table > thead th {
+	background: transparent !important;
+	font-weight: 100 !important;
+	color: white !important;
+	text-shadow: none !important;
+}
+
+.kcare-calendar .fc-view .ui-widget-header {
+	background: #0c9;
+}
+
+.kcare-calendar .fc-month-view .fc-day, .kcare-calendar .fc-agendaWeek-view .fc-day, .kcare-calendar .fc-agendaWeek-view .fc-slats tr {
+	border: 1px solid #eee !important;
+}
+
+.kcare-calendar .fc-month-view .fc-day.ui-state-highlight, .kcare-calendar .fc-agendaWeek-view .fc-today {
+	background: #eee !important;
+}
+
+.kcare-calendar .fc-month-view .fc-day-number {
+	text-shadow: none !important;
+}
+
+.kcare-calendar .fc-month-view .fc-day-number.ui-state-highlight {
+	color: #0c9 !important;
+}
+
+.kcare-calendar .fc-toolbar {
+	margin-bottom: 0.5rem !important;
+	padding: 0.5rem !important;
+	background: #0c9 !important;
+	border-radius: 0.25rem;
+}
+
+.kcare-calendar .fc-toolbar .fc-left .fc-prev-button span {
+	background-image: url(/resources/images/angle-left.svg) !important;
+	background-position: 0 0 !important;
+}
+
+.kcare-calendar .fc-toolbar .fc-left .fc-next-button span {
+	background-image: url(/resources/images/angle-right.svg) !important;
+	background-position: 0 0 !important;
+}
+
+.kcare-calendar .fc-toolbar .fc-center {
+	padding-top: 0.25rem;
+	color: white;
+	font-family: "Sniglet";
+}
+
+.kcare-calendar .fc-toolbar .fc-center h2 {
+	font-weight: normal !important;
+}
+
+.kcare-calendar .fc-toolbar button:not(:hover):not(.ui-state-active) {
+	color: white;
+}
+
+.kcare-calendar .fc-toolbar button:not(:last-of-type) {
+	margin-right: 0.5rem !important;
+}
+
+.kcare-calendar .fc-toolbar .fc-today-button {
+	margin-left: 0.5rem !important;
+	transition: border 0.2s, color 0.2s !important;
+}
+
+.kcare-calendar .fc-toolbar .fc-today-button:disabled {
+	color: transparent !important;
+	border-color: transparent !important;
+	background: transparent !important;
+	cursor: default !important;
+}
+
+.kcare-calendar .ui-dialog {
+	min-width: 50vw;
+}
+
+.kcare-calendar .ui-dialog .ui-datepicker-trigger {
+	display: inline-block !important;
+	margin: 0 !important;
+	padding: 1rem 1rem !important;
+	background-image: url(/resources/images/calendar.svg) !important;
+	background-position: center center !important;
+	background-repeat: no-repeat !important;
+}
+
+.kcare-calendar .ui-dialog .ui-datepicker-trigger span {
+	display: none;
+}
+
+.kcare-calendar .ui-dialog table tr:last-of-type td[role="gridcell"]:last-of-type {
+	text-align: right !important;
+}
+
+.kcare-calendar .fc-month-view .fc-time {
+	display: none;
+}
+
+.kcare-calendar .fc-event-container {
+	padding: 0.1rem 0 !important;
+}
+
+.ui-timepicker-div dt {
+	font-family: "Roboto" !important;
+	font-weight: 300 !important;
+	font-size: 0.9rem !important;
+}
+
+.ui-timepicker-div .ui_tpicker_time_input {
+	border: none !important;
+	font-family: "Roboto" !important;
+	font-weight: 300 !important;
+	font-size: 0.9rem !important;
+}
+
+.kcare-calendar .fc-event {
+	padding: 0.1rem 0.2rem;
+	background: #0c9 !important;
+	color: white !important;
+	border: none !important;
+}
+
+.kcare-calendar .fc-agendaDay-view .fc-day {
+	background: transparent !important;
+}
+
+.kcare-calendar .fc-agendaDay-view .fc-slats tr {
+	border: 1px solid #eee !important;
+}

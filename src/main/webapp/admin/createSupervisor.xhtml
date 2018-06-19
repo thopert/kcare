@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="createSupervisorForm">
+			<p:focus />
+			<p:growl for="success" showDetail="true" life="1500"/>
+			<p:panelGrid columns="3" class="kcare-table">
+				<f:facet name="header">Erstellung: Betreuer</f:facet>
+				<p:outputLabel id="userNameLabel" for="userNameInput"
+					value="Benutzername: " />
+				<p:inputText id="userNameInput"
+					value="#{supervisorCreateController.supervisor.user.userName}"
+					validator="#{customValidators.validateUserName}">
+					<f:validateLength minimum="3" maximum="20" />
+					<p:ajax event="keydown" process="@this"
+						update="userNameLabel userNameInput userNameMessage" delay="500" />
+				</p:inputText>
+				<p:message id="userNameMessage" for="userNameInput" />
+
+				<p:outputLabel for="role" value="Rolle: " />
+				<p:inputText id="role"
+					value="#{supervisorCreateController.supervisor.user.roles}"
+					disabled="true" />
+				<p:message for="role" />
+
+				<p:outputLabel for="firstName" value="Vorname: " />
+				<p:inputText id="firstName"
+					value="#{supervisorCreateController.supervisor.person.firstName}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message id="firstNameMessage" for="firstName" />
+
+				<p:outputLabel for="lastName" value="Nachname: " />
+				<p:inputText id="lastName"
+					value="#{supervisorCreateController.supervisor.person.lastName}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="lastName" />
+
+				<p:outputLabel for="sex" value="Geschlecht: " />
+				<p:selectOneRadio id="sex"
+					style="display: inline-table; verticle-align: top;"
+					value="#{supervisorCreateController.supervisor.person.sex}">
+					<f:selectItem itemLabel="weiblich" itemValue="true" />
+					<f:selectItem itemLabel="männlich" itemValue="false" />
+					<f:validateRequired />
+				</p:selectOneRadio>
+				<p:message for="sex" />
+
+				<p:outputLabel for="mail" value="Email: " />
+				<p:inputText id="mail"
+					value="#{supervisorCreateController.supervisor.person.mail}">
+					<f:validateLength minimum="3" maximum="30" />
+				</p:inputText>
+				<p:message for="mail" />
+
+				<p:outputLabel for="phone" value="Telefon privat: " />
+				<p:inputText id="phone"
+					value="#{supervisorCreateController.supervisor.person.phone}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="phone" />
+
+				<p:outputLabel for="businessPhone" value="Telefon geschäftlich: " />
+				<p:inputText id="businessPhone"
+					value="#{supervisorCreateController.supervisor.person.businessPhone}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="businessPhone" />
+
+				<p:outputLabel for="birthDate" value="Geburtsdatum: " />
+				<p:calendar id="birthDate"
+					value="#{supervisorCreateController.supervisor.person.birthDate}"
+					mode="popup" showOn="button" navigator="true" locale="de"
+					mask="true" yearRange="-100:+0" pattern="dd.MM.yyyy">
+					<f:validateRequired />
+				</p:calendar>
+				<p:message for="birthDate" />
+
+				<p:outputLabel id="pictureLabel" value="Bild auswählen: " />
+				<p:fileUpload id="picture"
+					fileUploadListener="#{supervisorCreateController.handleFileUpload}"
+					label="Bild hinzufügen" auto="true"
+					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="10000000" />
+				<p:message for="picture" />
+
+				<f:facet name="footer">
+					<h:panelGroup>
+						<p:commandButton id="submit" value="eintragen"
+							icon="fa fa-check"
+							action="#{supervisorCreateController.createSupervisor}"
+							update="@form" />
+						<p:button id="cancel" value="abbrechen" icon="fa fa-close"
+							outcome="/secured/welcome.xhtml" />
+					</h:panelGroup>
+				</f:facet>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

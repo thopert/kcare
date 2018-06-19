@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="userForm">
+			<p:growl for="success" showDetail="true" life="1500"/>
+			<h2 class="kcare-h2">Benutzer:</h2>
+			<p:dataTable id="userDT" class="kcare-datatable" var="user"
+				value="#{userListController.users}">
+				<p:column headerText="Benutzername" sortBy="#{user.userName}">
+					<h:outputText value="#{user.userName}" />
+				</p:column>
+				<p:column headerText="Rolle">
+					<h:outputText value="#{user.roles}" />
+				</p:column>
+				<p:column>
+					<p:commandButton title="Edit" icon="fa fa-pencil"
+						action="/admin/editUser.xhtml">
+						<f:setPropertyActionListener value="#{user}"
+							target="#{userDetailController.user}" />
+					</p:commandButton>
+					<p:commandButton action="#{userDetailController.delete}" icon="fa fa-trash"
+						title="Delete" update="@form">
+						<f:setPropertyActionListener value="#{user}"
+							target="#{userDetailController.user}" />
+						<p:confirm header="Löschen" message='Soll "#{user}" unwiderruflich gelöscht werden?' icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+				width="300">
+				<p:commandButton value="ja" type="button"
+					styleClass="ui-confirmdialog-yes delete" icon="fa fa-check" />
+				<p:commandButton value="nein" type="button"
+					styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+			</p:confirmDialog>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

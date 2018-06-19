@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="createJobForm">
+			<p:growl for="success" showDetail="true" life="2000"/>
+			<p:panelGrid columns="3" class="kcare-table">
+			<f:facet name="header">Erstellung: Job</f:facet>
+				<p:outputLabel for="allParents" value="Alle Eltern: " />
+				<p:selectOneRadio id="allParents" value="#{jobCreateController.all}">
+					<f:selectItem itemLabel="ja" itemValue="true" />
+					<f:selectItem itemLabel="nein" itemValue="false" />
+					<p:ajax update="@form" />
+					<f:validateRequired />
+				</p:selectOneRadio>
+				<p:message for="allParents" />
+
+				<p:outputLabel for="title" value="Titel: "/>
+				<p:inputText id="title" value="#{jobCreateController.job.title}">
+					<f:validateLength minimum="3" maximum="100" />
+				</p:inputText>
+				<p:message for="title" />
+
+				<p:outputLabel for="description" value="Beschreibung: " />
+				<p:inputTextarea id="description" value="#{jobCreateController.job.description}" rows="3" cols="50" autoResize="true" maxlength="150" />
+				<p:message for="description" />
+
+				<p:outputLabel id="parentLabel" value="Eltern auswählen: "
+					rendered="#{!jobCreateController.all}" />
+				<p:selectManyMenu id="parent"
+					value="#{jobCreateController.parentIds}" scrollHeight="150"
+					showCheckbox="true" rendered="#{!jobCreateController.all}" required="#{!jobCreateController.all}">
+					<f:selectItems value="#{jobCreateController.parents}" var="parent"
+						itemValue="#{parent.id}" itemLabel="#{parent}" />
+				</p:selectManyMenu>
+				<p:message id="parentMsg" for="parent"
+					rendered="#{!jobCreateController.all}" />
+
+
+				<p:outputLabel for="startDate" value="Beginn: " />
+				<p:calendar id="startDate" value="#{jobCreateController.job.startDate}" mode="popup" showOn="button" navigator="true" locale="de" timeZone="CET" mask="true" yearRange="-1:+1" pattern="dd.MM.yyyy">
+					<f:validateRequired />
+				</p:calendar>
+				<p:message for="startDate" />
+
+				<p:outputLabel for="endDate" value="Ende: " />
+				<p:calendar id="endDate" value="#{jobCreateController.job.endDate}" mode="popup" showOn="button" navigator="true" locale="de" timeZone="CET" mask="true" yearRange="-1:+1" pattern="dd.MM.yyyy">
+					<f:validateRequired />
+				</p:calendar>
+				<p:message for="endDate" />
+
+				<p:outputLabel for="daysBefore" value="Erinnerung (#Tage): " />
+				<p:inputNumber id="daysBefore" value="#{jobCreateController.job.daysBefore}" minValue="0" maxValue="30"
+				decimalPlaces="0">
+					<f:validateRequired />
+				</p:inputNumber>
+				<p:message for="daysBefore" />
+
+				<f:facet name="footer"><h:panelGroup>
+            		<p:commandButton id="submit" value="erstellen" icon="fa fa-check" action="#{jobCreateController.save}" update="@form" />
+					<p:button id="cancel" value="abbrechen" icon="fa fa-close" outcome="/secured/welcome.xhtml" />
+				</h:panelGroup></f:facet>
+
+			</p:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

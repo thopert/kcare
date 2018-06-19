@@ -1,0 +1,10 @@
+.idea/*
+target/*
+*.iml
+.DS_Store
+/.vagrant
+/node_modules
+.classpath
+.project
+.settings/
+/target/

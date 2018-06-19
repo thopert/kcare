@@ -1,0 +1,52 @@
+version: 2 # use CircleCI 2.0
+jobs:
+  build: # runs not using Workflows must have a `build` job as entry point
+    docker:
+      # primary container
+      - image: circleci/openjdk:8-jdk-browsers
+
+      # secondary container (database service)
+      - image: mysql:5.7 
+        environment:
+          - MYSQL_ALLOW_EMPTY_PASSWORD=true
+       
+    working_directory: ~/kcare # directory where steps will run
+    
+    steps:
+      - checkout # check out source code to working directory
+
+      - restore_cache:  # restore cache if 'pom.xml' hasn't changed
+          key: v1-kcare-{{ checksum "pom.xml" }}  #  base64 encoded SHA256 hash of the given filename’s contents
+
+      - run: mvn dependency:go-offline # gets the project dependencies
+
+      - save_cache: # save project dependencies
+          paths:
+            - ~/.m2
+          key: v1-kcare-{{ checksum "pom.xml" }}
+      
+      # install mysql client in primary container
+      - run: sudo apt install -y mysql-client  
+      
+      # wait for the database to be ready 
+      - run:
+          name: wait for db
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+      
+      # setup databases
+      - run: 
+          name: setup test database
+          command: mysql -u root -h 127.0.0.1 -e "create database kcaretest"
+       
+      # run tests with maven and generate html report     
+      - run: 
+          name: run tests and create html test report
+          command: |
+            mvn surefire-report:report 
+            mvn site -DgenerateReports=false
+            cp -r target/site ~/report
+      
+      # store report so it is available from the dashboard
+      - store_artifacts:
+          path: ~/report
+      

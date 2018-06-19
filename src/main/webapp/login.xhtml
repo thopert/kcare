@@ -1,0 +1,25 @@
+<?xml-stylesheet href="WEB-INF/css/style.css" type="text/css"?>
+<ui:composition xmlns="http://www.w3c.org/1999/xhtml" lang="de" xml:lang="de"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui"
+    template="/WEB-INF/templates/main.xhtml">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <ui:define name="content">
+        <div id="login">
+            <div>
+            <h1><span style="color: #0cf;">k</span><span style="color: #f93;">C</span><span style="color: #0c9;">a</span><span style="color: #c6f;">r</span><span style="color: #e62e00;">e</span></h1>
+            <h2>Login</h2>
+            <form id="login_form" action="#{request.contextPath}/login" method="post">
+                <p:inputText id="username" placeholder="Benutzername" value="" type="username" required="true"></p:inputText>
+                <p:inputText id="password" placeholder="Passwort" value="" name="passwdord" type="password" required="true"></p:inputText>
+                <h:commandButton type="submit" value="anmelden" name="login" class="btn-green"></h:commandButton>
+            </form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="editChildForm">
+			<p:growl for="success" showDetail="true" life="2000"/>
+
+			<p:panelGrid columns="3" class="kcare-table">
+				<f:facet name="header">Bearbeitung: #{childDetailController.child}</f:facet>
+				<p:outputLabel for="picture" value="Bild: " />
+				<p:graphicImage id="picture"
+					value="#{childDetailController.child.person.displayPicture}"
+					width="300" height="200" />
+				<p:message for="picture"/>
+
+				<p:outputLabel id="labelPictureUL" value="Bild editieren:" />
+				<p:fileUpload id="pictureUL"
+					fileUploadListener="#{childDetailController.handleFileUpload}" label="Bild hinzufügen"
+					auto="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+					sizeLimit="10000000" update="picture" />
+				<p:message for="pictureUL" />
+
+				<p:outputLabel for="firstName" value="Vorname: " />
+				<p:inputText id="firstName"
+					value="#{childDetailController.child.person.firstName}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="firstName" />
+				<p:outputLabel for="lastName" value="Nachname: " />
+				<p:inputText id="lastName"
+					value="#{childDetailController.child.person.lastName}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="lastName" />
+				<p:outputLabel for="sex" value="Geschlecht: " />
+				<p:selectOneRadio id="sex"
+					value="#{childDetailController.child.person.sex}">
+					<f:selectItem itemLabel="weiblich" itemValue="true" />
+					<f:selectItem itemLabel="männlich" itemValue="false" />
+					<f:validateRequired />
+				</p:selectOneRadio>
+				<p:message for="sex" />
+				<p:outputLabel for="birthDate" value="Geburtsdatum: " />
+				<p:calendar id="birthDate"
+					value="#{childDetailController.child.person.birthDate}"
+					mode="popup" showOn="button" navigator="true" locale="de"
+					mask="true" yearRange="-10:+0" pattern="dd.MM.yyyy">
+					<f:validateRequired />
+				</p:calendar>
+				<p:message for="birthDate" />
+				<p:outputLabel for="notes" value="Anmerkungen: " />
+				<p:inputTextarea id="notes"
+					value="#{childDetailController.child.notes}" rows="3" cols="50"
+					autoResize="true" maxlength="150" />
+				<p:message for="notes" />
+				
+				<p:outputLabel value="Bringzeit [HH:mm]:"/>
+    			<p:panelGrid id="putGrid" columns="3">
+					<p:outputLabel for="putTimeBegin" value="von:" />
+					<p:inputText id="putTimeBegin"
+						value="#{childDetailController.child.putTimeBegin}"
+						validator="#{customValidators.validateTime}" />
+					<p:message for="putTimeBegin" />
+
+					<p:outputLabel for="putTimeEnd" value="bis:" />
+					<p:inputText id="putTimeEnd"
+						value="#{childDetailController.child.putTimeEnd}"
+						validator="#{customValidators.validateTime}" />
+					<p:message for="putTimeEnd" />
+				</p:panelGrid>
+				<p:message for="putGrid"/>
+    			 	
+    			<p:outputLabel value="Abholzeit [HH:mm]:"/>			
+    			<p:panelGrid id="pickGrid" columns="3">
+					<p:outputLabel for="pickTimeBegin" value="von:" />
+					<p:inputText id="pickTimeBegin"
+						value="#{childDetailController.child.pickTimeBegin}"
+						validator="#{customValidators.validateTime}" />
+					<p:message for="pickTimeBegin" />
+
+					<p:outputLabel for="pickTimeEnd" value="bis:" />
+					<p:inputText id="pickTimeEnd"
+						value="#{childDetailController.child.pickTimeEnd}"
+						validator="#{customValidators.validateTime}" />
+					<p:message for="pickTimeEnd" />
+				</p:panelGrid>
+				<p:message for="pickGrid"/>
+				
+				<p:outputLabel for="cancellationDate" value="Abmelde-Datum: " rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"/>
+				<p:calendar id="cancellationDate"
+					value="#{childDetailController.child.cancellationDate}"
+					mode="popup" showOn="button" navigator="true" locale="de"
+					mask="true" yearRange="c-10:c+10" pattern="dd.MM.yyyy" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}">
+					<f:validateRequired />
+				</p:calendar>
+				<p:message for="cancellationDate" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"/>
+				
+				<p:outputLabel for="parent" value="Eltern: " rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"/>
+				<h:selectOneMenu id="parent" value="#{childDetailController.parentId}" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}">
+					<f:selectItem itemLabel="#{childDetailController.child.parents}" itemValue="#{childDetailController.child.parents.id}"/>
+					<f:selectItems value="#{childDetailController.parents}" var="parent" itemValue="#{parent.id}"/>
+				</h:selectOneMenu>
+				<p:message for="parent" rendered="#{sessionInfoBean.hasRole('SUPERVISOR')}"/>
+
+				<f:facet name="footer"><h:panelGroup>
+					<p:commandButton class="btn-green" id="submit" value="eintragen" icon="fa fa-check" update="@form" action="#{childDetailController.saveChild}" />
+					<p:button id="cancel" value="abbrechen" icon="fa fa-close" outcome="/secured/supervisor/dataManagement/listChildren.xhtml" />
+				</h:panelGroup></f:facet>
+			</p:panelGrid>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

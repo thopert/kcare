@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="listSupervisorsForm">
+			<p:growl for="success" showDetail="true" life="2000" />
+			<h2 class="kcare-h2">Betreuer:</h2>
+			<p:dataTable id="supervisorDT" var="supervisor"
+				value="#{supervisorListController.supervisors}"
+				class="kcare-datatable">
+				<p:column headerText="Benutzername" sortBy="#{supervisor.user.userName}">
+					<h:outputText value="#{supervisor.user.userName}" />
+				</p:column>
+				<p:column headerText="Vorname" sortBy="#{supervisor.person.firstName}">
+					<h:outputText value="#{supervisor.person.firstName}" />
+				</p:column>
+				<p:column headerText="Nachname" sortBy="#{supervisor.person.lastName}">
+					<h:outputText value="#{supervisor.person.lastName}" />
+				</p:column>
+				<p:column>
+					<p:commandButton title="View" icon="fa fa-search" action="/admin/supervisorDetails.xhtml">
+						<f:setPropertyActionListener value="#{supervisor}"
+							target="#{supervisorDetailController.supervisor}"  />
+					</p:commandButton>
+					<p:commandButton title="Edit" icon="fa fa-pencil"
+						action="/admin/editSupervisor.xhtml">
+						<f:setPropertyActionListener value="#{supervisor}"
+							target="#{supervisorDetailController.supervisor}" />
+					</p:commandButton>
+					<p:commandButton title="Delete" icon="fa fa-trash"
+						action="#{supervisorDetailController.delete}"
+						update="@form">
+						<f:setPropertyActionListener value="#{supervisor}"
+							target="#{supervisorDetailController.supervisor}" />
+						<p:confirm header="Löschen"
+							message='Soll "#{supervisor}" unwiderruflich gelöscht werden?'
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="ja" type="button"
+					styleClass="ui-confirmdialog-yes delete" icon="fa fa-check" />
+				<p:commandButton value="nein" type="button"
+					styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

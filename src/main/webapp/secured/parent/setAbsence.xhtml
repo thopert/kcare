@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="setAbsenceForm">
+			<p:growl id="growl" for="success" showDetail="true" life="1500"/>
+			<p:messages id="msgs" severity="error"/>
+			<p:panelGrid columns="2" class="kcare-table">
+				<f:facet name="header">Meldung: Abwesenheit</f:facet>
+				
+				<p:outputLabel for="calendar" value="Datum wählen:" />
+				<p:calendar id="calendar" value="#{parentSetAbsenceController.date}"
+					mode="inline" showOn="button" navigator="true" locale="de"
+					mask="true" timeZone="CET" yearRange="-100:+0" pattern="dd.MM.yyyy" disabledWeekends="true">
+					<p:ajax event="dateSelect" update="isAbsent"/>
+					<f:validateRequired/>
+				</p:calendar>
+				
+				<p:outputLabel for="children" value="Kind auswählen: " />
+				<h:selectOneMenu id="children"
+					value="#{parentSetAbsenceController.childId}">
+					<f:selectItems value="#{parentSetAbsenceController.children}"
+						var="child" itemValue="#{child.id}" />
+					<p:ajax update="isAbsent"/>
+					<f:validateRequired/>
+				</h:selectOneMenu>
+				
+				<p:outputLabel for="isAbsent" value="Abwesend: "/>
+				<p:outputLabel id="isAbsent" value="#{parentSetAbsenceController.isAbsent() ? 'JA' : 'NEIN'}"/>
+
+				<f:facet name="footer">
+					<h:panelGroup>
+						<p:commandButton id="submit" value="eintragen" icon="fa fa-check"
+							update="growl isAbsent msgs" actionListener="#{parentSetAbsenceController.save}" />
+							<p:commandButton id="delete" value="austragen" icon="fa fa-trash"
+							update="growl isAbsent msgs" actionListener="#{parentSetAbsenceController.delete}" />
+						<p:button id="cancel" value="abbrechen"
+							icon="fa fa-close" outcome="/secured/welcome.xhtml" />
+					</h:panelGroup>
+				</f:facet>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

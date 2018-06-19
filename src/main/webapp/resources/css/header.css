@@ -1,0 +1,100 @@
+/*#header {
+	grid-area: header;
+	margin: 0 !important;
+	background: lightblue !important;
+	box-shadow: 0 0 1rem rgba(0, 0, 0, 1);
+}
+
+#header * {
+	display: inline-block !important;
+	background: none;
+	border: none;
+	padding: 0 !important;
+}
+*/
+
+/*
+	delete primeface-formats
+*/
+#header form {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	grid-template-rows: 1fr;
+	grid-template-areas:
+		"logo menu user"
+	;
+	white-space: nowrap;
+	position: relative;
+	margin: 0 !important;
+	font-family: "Sniglet" !important;
+	font-weight: 300 !important;
+	font-size: 0.9rem !important;
+	background: #0c9;
+	color: white !important;
+	box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.25) !important;
+	align-items: center;
+}
+
+#header .header-logo {
+	grid-area: logo;
+	margin: 0 0.5rem !important;
+	padding: 0.25rem 0.5rem !important;
+	background: white !important;
+	border-radius: 0.25rem;
+}
+
+#header .header-menu {
+	grid-area: menu;
+	text-align: center !important;
+}
+
+#header .header-user {
+	grid-area: user;
+	text-align: right;
+}
+
+#header .header-user td {
+	padding: 0 !important;
+}
+
+#header .header-user td label {
+	font-family: "Sniglet" !important;
+}
+
+#header .header-user img {
+	display: block;
+	margin: 0 0.3rem 0 0.5rem;
+	width: 32px;
+	height: 32px;
+	line-height: 40px;
+	border-radius: 0.25rem;
+}
+
+#header > form > div {
+	background: transparent !important;
+	padding: 0 !important;
+	border: none;
+	border-radius: 0;
+}
+
+#header > form > div > ul > li {
+	margin: 0 !important;
+}
+
+#header > form > div > ul > li > a {
+	margin: 0 !important;
+	padding: 0 0.5rem !important;
+	background: none !important;
+	box-shadow: none;
+	line-height: 40px;
+	color: white !important;
+	border: none;
+	border-radius: 0 !important;
+	font-family: "Sniglet" !important;
+	transition: background 0.1s;
+}
+
+#header > form > div > ul > li > a:hover {
+	background: #00b386 !important;
+	transition: background 0.1s;
+}

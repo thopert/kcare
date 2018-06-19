@@ -1,0 +1,57 @@
+table {
+	width: auto !important;
+	border-radius: 0.25rem !important;
+	font-family: "Roboto" !important;
+	font-size: 0.9rem !important;
+	font-weight: 300 !important;
+
+	table-layout: auto !important;
+}
+
+div.filled table {
+	width: 100% !important;
+}
+
+tbody {
+	border: 0 !important;
+}
+
+tr {
+	border: 0 !important;
+}
+
+td, th {
+	padding: 0.5rem 0.5rem !important;
+	border: 0 !important;
+}
+
+td > button:not(:last-of-type) {
+	margin-right: 0.5rem !important;
+}
+
+table thead [role="columnheader"] {
+	background: #0c9;
+	font-family: "Sniglet";
+	text-shadow: none;
+	color: white;
+	font-weight: 300;
+	font-size: 1rem;
+	line-height: 2rem !important;
+}
+
+table tfoot [role="columnheader"] {
+	background: #eee;
+
+}
+
+table tfoot [role="columnheader"] {
+	text-align: right !important;
+}
+
+table tfoot [role="columnheader"] span {
+	text-align: right !important;
+}
+
+table tfoot [role="columnheader"] button:not(:last-of-type) {
+	margin-right: 1rem !important;
+}

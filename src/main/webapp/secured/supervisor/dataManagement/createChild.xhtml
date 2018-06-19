@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="createChildForm">
+			<p:growl for="success" showDetail="true" />
+			<p:panelGrid columns="3" class="kcare-table">
+				<f:facet name="header">Erstellung: Kind</f:facet>
+
+				<p:outputLabel for="firstName" value="Vorname: " />
+				<p:inputText id="firstName"
+					value="#{childCreateController.child.person.firstName}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="firstName" />
+
+				<p:outputLabel for="lastName" value="Nachname: " />
+				<p:inputText id="lastName"
+					value="#{childCreateController.child.person.lastName}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="lastName" />
+
+				<p:outputLabel for="sex" value="Geschlecht: " />
+				<p:selectOneRadio id="sex"
+					value="#{childCreateController.child.person.sex}">
+					<f:selectItem itemLabel="weiblich" itemValue="true" shape="circle" />
+					<f:selectItem itemLabel="männlich" itemValue="false" />
+					<f:validateRequired />
+				</p:selectOneRadio>
+				<p:message for="sex" />
+
+				<p:outputLabel for="birthDate" value="Geburtsdatum: " />
+				<p:calendar id="birthDate"
+					value="#{childCreateController.child.person.birthDate}"
+					mode="popup" showOn="button" navigator="true" locale="de"
+					mask="true" yearRange="-10:+0" pattern="dd.MM.yyyy">
+					<f:validateRequired />
+				</p:calendar>
+				<p:message for="birthDate" />
+
+				<p:outputLabel for="notes" value="Anmerkungen: " />
+				<p:inputTextarea id="notes"
+					value="#{childCreateController.child.notes}" rows="3" cols="50"
+					autoResize="true" maxlength="150" />
+				<p:message for="notes" />
+
+				<p:outputLabel for="cancellationDate" value="Abmelde-Datum: " />
+				<p:calendar id="cancellationDate"
+					value="#{childCreateController.child.cancellationDate}"
+					mode="popup" showOn="button" navigator="true" locale="de"
+					mask="true" yearRange="c:c+3" pattern="dd.MM.yyyy">
+					<f:validateRequired />
+				</p:calendar>
+				<p:message for="cancellationDate" />
+
+				<p:outputLabel for="parent" value="Eltern: " />
+				<h:selectOneMenu id="parent"
+					value="#{childCreateController.parentId}">
+					<f:selectItem itemLabel="Eltern auswählen" itemValue="" />
+					<f:selectItems value="#{childCreateController.parents}"
+						var="parent" itemValue="#{parent.id}"
+						itemLabel="#{parent.mother.firstName} #{parent.mother.lastName} / #{parent.father.firstName} #{parent.father.lastName}" />
+				</h:selectOneMenu>
+				<p:message for="parent" />
+				
+				<p:outputLabel id="pictureLabel" value="Bild auswählen: "/>
+				<p:fileUpload id="picture" fileUploadListener="#{childCreateController.handleFileUpload}"  label="Bild hinzufügen"
+				auto="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="10000000" />
+				<p:message for="picture"/>
+
+				<f:facet name="footer">
+					<h:panelGroup>
+						<p:commandButton id="submit" value="erstellen" icon="fa fa-check"
+							action="#{childCreateController.createChild}" update="@form" />
+						<p:button id="cancel" value="abbrechen"
+							icon="fa fa-close" 
+							outcome="/secured/welcome.xhtml" />
+					</h:panelGroup>
+				</f:facet>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

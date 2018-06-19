@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form id="childContactListForm">
+			<p:growl for="success" showDetail="true" />
+			<h2 class="kcare-h2">Kontaktliste:</h2>
+			<p:panelGrid id="selector" columns="2" class="kcare-table not-print">
+				<f:facet name="header">Kind:</f:facet>
+				<p:outputLabel for="children" value="Kind auswählen: " />
+				<p:selectOneMenu id="children"
+					value="#{childContactListController.childId}" filter="true" filterMatchMode="contains">
+					<f:selectItem itemLabel="Alle" itemValue="" />
+					<f:selectItems value="#{childContactListController.children}"
+						var="child" itemValue="#{child.id}"/>
+					<p:ajax event="itemSelect" update="pg"
+						listener="#{childContactListController.modeChanged}"/>
+				</p:selectOneMenu>
+			</p:panelGrid>
+
+			<br></br>
+
+			<h:panelGroup id="pg">
+				<p:dataTable id="contactDT" var="contact"
+					value="#{childContactListController.contactList}"
+					class="kcare-datatable"
+					rendered="#{!childContactListController.isShowAll()}">
+					<f:facet name="header">
+						<p:outputLabel
+							value="#{childContactListController.child}" />
+					</f:facet>
+					<p:column headerText="Vorname">
+						<h:outputText value="#{contact.firstName}" />
+					</p:column>
+					<p:column headerText="Nachname">
+						<h:outputText value="#{contact.lastName}" />
+					</p:column>
+					<p:column headerText="Tel. gesch.">
+						<h:outputText value="#{contact.businessPhone}" />
+					</p:column>
+					<p:column headerText="Tel. priv.">
+						<h:outputText value="#{contact.phone}" />
+					</p:column>
+					<p:column headerText="Email">
+						<h:outputText value="#{contact.mail}" />
+					</p:column>
+					<p:column headerText="Typ">
+						<h:outputText
+							value="#{childContactListController.isContact(contact) ? 'Kontakt' : 'Eltern'}" />
+					</p:column>
+				</p:dataTable>
+
+				<p:dataTable id="allContactDT" var="child"
+					value="#{childContactListController.children}"
+					class="kcare-datatable"
+					rendered="#{childContactListController.isShowAll()}">
+					<p:columnGroup type="header">
+						<p:row>
+							<p:column headerText="Vorname" />
+							<p:column headerText="Nachname" />
+							<p:column headerText="Tel. gesch." />
+							<p:column headerText="Tel. priv." />
+							<p:column headerText="Email" />
+							<p:column headerText="Typ" />
+						</p:row>
+					</p:columnGroup>
+
+					<p:subTable
+						value="#{childContactListController.getContactList(child)}"
+						var="contact">
+						<f:facet name="header">
+							<p:outputLabel value="#{child}" />
+						</f:facet>
+						<p:column>
+							<h:outputText value="#{contact.firstName}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{contact.lastName}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{contact.businessPhone}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{contact.phone}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{contact.mail}" />
+						</p:column>
+						<p:column>
+							<h:outputText
+								value="#{childContactListController.isContact(contact) ? 'Kontakt' : 'Eltern'}" />
+						</p:column>
+					</p:subTable>
+				</p:dataTable>
+			</h:panelGroup>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ng="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/main.xhtml">
+
+	<ui:define name="content">
+		<h:form styleClass="centred-form" id="parentSettingsForm">
+			<p:growl for="success" showDetail="true" />
+			<p:panelGrid columns="2" class="kcare-table">
+			<f:facet name="header">Kontodaten bearbeiten:</f:facet>
+				<p:outputLabel id="userNameLabel" for="userNameInput" value="Username: " />
+				<p:inputText id="userNameInput" value="#{parentSettingsController.parent.user.userName}" disabled="true"/>
+				<p:outputLabel id="password" value="Passwort: " />
+				<p:commandButton value="edit"  action="/secured/common/editPassword" process="@this" />
+			</p:panelGrid>
+
+			<br></br>
+
+			<p:panelGrid columns="3" class="kcare-table">
+				<f:facet name="header">Mutter bearbeiten:</f:facet>
+				<p:outputLabel for="firstNameMother" value="Vorname: " />
+				<p:inputText id="firstNameMother"
+					value="#{parentSettingsController.parent.mother.firstName}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="firstNameMother" />
+
+				<p:outputLabel for="lastNameMother" value="Nachname: " />
+				<p:inputText id="lastNameMother"
+					value="#{parentSettingsController.parent.mother.lastName}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="lastNameMother" />
+
+				<p:outputLabel for="mailMother" value="Email: " />
+				<p:inputText id="mailMother"
+					value="#{parentSettingsController.parent.mother.mail}">
+					<f:validateLength minimum="3" maximum="30" />
+				</p:inputText>
+				<p:message for="mailMother" />
+
+				<p:outputLabel for="phoneMother" value="Festnetz: " />
+				<p:inputText id="phoneMother"
+					value="#{parentSettingsController.parent.mother.phone}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="phoneMother" />
+
+				<p:outputLabel for="businessPhoneMother" value="Mobiltelefon: " />
+				<p:inputText id="businessPhoneMother"
+					value="#{parentSettingsController.parent.mother.businessPhone}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="businessPhoneMother" />
+
+				<p:outputLabel for="birthDateMother" value="Geburtsdatum: " />
+				<p:calendar id="birthDateMother"
+					value="#{parentSettingsController.parent.mother.birthDate}"
+					mode="popup" showOn="button" navigator="true" locale="de"
+					mask="true" yearRange="-100:+0" pattern="dd.MM.yyyy">
+					<f:validateRequired />
+				</p:calendar>
+				<p:message for="birthDateMother" />
+			</p:panelGrid>
+
+			<br></br>
+
+			<p:panelGrid columns="3" class="kcare-table">
+				<f:facet name="header">Vater bearbeiten:</f:facet>
+				<p:outputLabel for="firstNameFather" value="Vorname: " />
+				<p:inputText id="firstNameFather" value="#{parentSettingsController.parent.father.firstName}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="firstNameFather" />
+
+				<p:outputLabel for="lastNameFather" value="Nachname: " />
+				<p:inputText id="lastNameFather"
+					value="#{parentSettingsController.parent.father.lastName}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="lastNameFather" />
+
+				<p:outputLabel for="mailFather" value="Email: " />
+				<p:inputText id="mailFather"
+					value="#{parentSettingsController.parent.father.mail}">
+					<f:validateLength minimum="3" maximum="30" />
+				</p:inputText>
+				<p:message for="mailFather" />
+
+				<p:outputLabel for="phoneFather" value="Festnetz: " />
+				<p:inputText id="phoneFather"
+					value="#{parentSettingsController.parent.father.phone}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="phoneFather" />
+
+				<p:outputLabel for="businessPhoneFather" value="Mobiltelefon: " />
+				<p:inputText id="businessPhoneFather"
+					value="#{parentSettingsController.parent.father.businessPhone}">
+					<f:validateLength minimum="3" maximum="20" />
+				</p:inputText>
+				<p:message for="businessPhoneFather" />
+
+				<p:outputLabel for="birthDateFather" value="Geburtsdatum: " />
+				<p:calendar id="birthDateFather"
+					value="#{parentSettingsController.parent.father.birthDate}"
+					mode="popup" showOn="button" navigator="true" locale="de"
+					mask="true" yearRange="-100:+0" pattern="dd.MM.yyyy">
+					<f:validateRequired />
+				</p:calendar>
+				<p:message for="birthDateFather" />
+			</p:panelGrid>
+
+			<br></br>
+
+			<p:panelGrid columns="2" class="kcare-table">
+				<f:facet name="header">Sichern:</f:facet>
+				<f:facet name="footer">
+					<p:commandButton id="submit" value="Speichern" update="@form" icon="fa fa-check" action="#{parentSettingsController.saveParent}"/>
+					<p:commandButton id="cancel" value="Abbrechen" process="@this" action="/secured/welcome.xhtml" icon="fa fa-close" />
+				</f:facet>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
